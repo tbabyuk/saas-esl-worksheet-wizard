@@ -1,7 +1,8 @@
-import { Inter } from "next/font/google";
+import { Lora, Roboto } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const lora = Lora({subsets: ["latin"], variable: "--font-lora"});
+const roboto = Roboto({subsets: ["latin"], weight: ["100", "300", "400"], variable: "--font-roboto"});
 
 export const metadata = {
   title: "ESL Worksheet Wizard",
@@ -11,7 +12,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${lora.variable} ${roboto.variable}`}>
         {children}
       </body>
     </html>
