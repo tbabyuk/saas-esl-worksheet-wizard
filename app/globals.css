@@ -8,3 +8,7 @@
     box-sizing: border-box;
   }
 
+.blah {
+  color: hsl(226, 66%, 16%);
+  background-color: #2c3e7c;
+}

@@ -13,7 +13,7 @@ module.exports = {
       {
         emerald: {
           ...require("daisyui/src/theming/themes")["emerald"],
-          primary: "#0E1B45",
+          primary: "#122154",
           secondary: "#81ADC8",
           accent: "#F9627D"
         }
@@ -25,6 +25,10 @@ module.exports = {
       fontFamily: {
         lora: ["var(--font-lora)"],
         roboto: ["var(--font-roboto)"],
+      },
+      colors: {
+        "primary-light": "#2c3e7c",
+        "custom-green": "#23CE6B"
       }
     }
   }
