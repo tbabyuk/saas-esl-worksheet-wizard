@@ -1,7 +1,7 @@
 
 
 
-const PricingSection = () => {
+export const PricingSection = () => {
   return (
     <div className="min-h-[90vh] py-20 px-5 md:px-12">
         <p className="text-center text-4xl mb-12">Choose Your Plan</p>
@@ -50,5 +50,3 @@ const PricingSection = () => {
     </div>
   )
 }
-
-export default PricingSection
