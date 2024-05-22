@@ -1,5 +1,7 @@
 import { Lora, Roboto } from "next/font/google";
 import "./globals.css";
+import { Navbar } from "./components/navbar";
+import { Sidebar } from "./components/sidebar";
 
 const lora = Lora({subsets: ["latin"], variable: "--font-lora"});
 const roboto = Roboto({subsets: ["latin"], weight: ["100", "300", "400"], variable: "--font-roboto"});
@@ -13,7 +15,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${lora.variable} ${roboto.variable}`}>
-        {children}
+          {children}
       </body>
     </html>
   );
