@@ -3,6 +3,8 @@ import Link from "next/link"
 import { useState } from "react"
 import Image from "next/image"
 import { FaHamburger } from "react-icons/fa";
+import { IoSettingsOutline } from "react-icons/io5";
+
 
 
 const routes = [
@@ -38,7 +40,7 @@ const routes = [
   },
   {
     label: "Settings",
-    icon: <FaHamburger className="h-5 w-5 mr-3" />,
+    icon: <IoSettingsOutline className="h-5 w-5 mr-3" />,
     href: "/settings"
   },
 ]
