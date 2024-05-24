@@ -1,14 +1,13 @@
 "use client"
 
 import { useState, useRef } from "react"
-import jsPDF from "jspdf"
-// import html2canvas from "html2canvas"
-import html2canvas from "html2canvas-pro"
-
+import { useReactToPrint } from "react-to-print";
+import { PrintMe } from "@/app/components/PrintMe";
+import { OptionsMenu } from "../../components/OptionsMenu";
 
 const MatchingWorksheetPage = () => {
 
-  const pdfRef = useRef();
+  const contentToPrint = useRef(null);
 
 
   const [aiResponse, setAiResponse] = useState("")
@@ -74,13 +73,6 @@ const MatchingWorksheetPage = () => {
       parseString(data.content)
 
 
-
-      // const objectStringParsed = JSON.parse(objectString);
-
-
-      // console.log("logging objectStringParsed:", objectStringParsed);
-
-      // console.log("reading response to front end from back end:", data)
   }
 
 
@@ -93,115 +85,74 @@ const MatchingWorksheetPage = () => {
 
 
 
-  const handleGeneratePDF = async (e) => {
-    //   const res = fetch("/api/create-pdf", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json"
-    //     },
-    //     body: JSON.stringify(inputObject)
-    // })
 
-
-    // The code below works, but it requires the content to be visible, which I don't want
-    const element = pdfRef.current;
-    const canvas = await html2canvas(element, { scale: 2 });
-    const imgData = canvas.toDataURL('image/png');
-
-    const pdf = new jsPDF('p', 'mm', 'a4');
-    const pdfWidth = pdf.internal.pageSize.getWidth();
-    const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-
-    pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-    pdf.save('document.pdf');
-
-
-  };
-
+  const handlePrint = useReactToPrint({
+    documentTitle: "Print This Document",
+    onBeforePrint: () => console.log("before printing..."),
+    onAfterPrint: () => console.log("after printing..."),
+    removeAfterPrint: true,
+  });
 
 
 
 
 
   return (
-    <>
-    <div className="min-h-[90vh] py-20 px-5 md:px-12 bg-gray-200">
-      <h2 className="text-center text-2xl font-semibold">Testing place for OpenAI Api calls</h2>
-      <button className="btn btn-secondary" onClick={handleGeneratePDF}>Generate PDF</button>
-      <form onSubmit={handleApiCall}>
+      <>
+        <div className="py-16 px-5 md:px-12">
+          <h1 className="text-4xl mb-10 text-center font-semibold">Matching Exercises</h1>
+          <OptionsMenu setObjectKeys={setObjectKeys} setObjectValues={setObjectValues} />
+          <h2 className="text-center text-2xl font-semibold">Testing place for OpenAI Api calls</h2>
+          <form onSubmit={handleApiCall}>
+              <textarea 
+                className="p-3" 
+                rows={5} 
+                cols={30} 
+                value={prompt} 
+                onChange={(e) => setPrompt(e.target.value)}
+              >
 
-          <textarea 
-            className="p-3" 
-            rows={5} 
-            cols={30} 
-            value={prompt} 
-            onChange={(e) => setPrompt(e.target.value)}
-          >
+              </textarea><br />
+            <button className="btn btn-secondary">Submit</button>
+          </form>
 
-          </textarea><br />
-        <button className="btn btn-secondary">Submit</button>
-      </form>
-
-      <div>
-        {aiResponse && (
-        <div>{aiResponse}</div>
-      )}
-      </div>
-    </div>
-
-
-    <div>
-      <h1>PDF Generator</h1>
-      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-      <div ref={pdfRef} className="w-full max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
-        <div className="bg-[url('/images/hero-bg-3.jpg')] grid place-items-center from-blue-500 to-teal-500 text-white text-center h-[300px]">
-          <h1 className="text-2xl font-bold">Beautiful Table</h1>
+          <div>
+            {aiResponse && (
+            <div>{aiResponse}</div>
+          )}
+          </div>
         </div>
-        <div className="p-4">
-          <table className="min-w-full bg-white">
-            <thead>
-              <tr>
-                <th className="py-2 px-4 bg-teal-600 text-white">{objectKeys && objectKeys[0]}</th>
-                <th className="py-2 px-4 bg-teal-600 text-white">{objectKeys && objectKeys[1]}</th>
-                <th className="py-2 px-4 bg-teal-600 text-white">{objectKeys && objectKeys[2]}</th>
-                <th className="py-2 px-4 bg-teal-600 text-white">{objectKeys && objectKeys[3]}</th>
-                <th className="py-2 px-4 bg-teal-600 text-white">{objectKeys && objectKeys[4]}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr className="bg-gray-100">
-                <td className="py-2 px-4 border-b border-gray-200">{objectValues && objectValues[0]}</td>
-                <td className="py-2 px-4 border-b border-gray-200">{objectValues && objectValues[1]}</td>
-                <td className="py-2 px-4 border-b border-gray-200">{objectValues && objectValues[2]}</td>
-                <td className="py-2 px-4 border-b border-gray-200">{objectValues && objectValues[3]}</td>
-                <td className="py-2 px-4 border-b border-gray-200">{objectValues && objectValues[4]}</td>
-              </tr>
-            </tbody>
-            <tfoot>
-              <tr>
-                <td colSpan="4" className="py-2 px-4 bg-teal-600 text-white text-right font-bold">Total</td>
-                <td className="py-2 px-4 bg-teal-600 text-white font-bold">$197.00</td>
-              </tr>
-            </tfoot>
-          </table>
+
+
+        <div className="pt-20 px-10">
+          <div ref={contentToPrint} className="min-h-[1056px] bg-yellow-50 p-6">
+            <h2 className="text-center text-4xl font-semibold mb-4">Matching Exercise</h2>
+            <p className="text-center mb-16">Match the terms below with their respective definitions</p>
+            <div className="grid grid-cols-2 gap-x-3">
+              <div className="bg-blue-200 min-w-[120px] mx-auto">
+                <div type="text" className="matching-term">{objectKeys && objectKeys[0]}</div>
+                <div type="text" className="matching-term">{objectKeys && objectKeys[1]}</div>
+                <div type="text" className="matching-term">{objectKeys && objectKeys[2]}</div>
+                <div type="text" className="matching-term">{objectKeys && objectKeys[3]}</div>
+                <div type="text" className="matching-term">{objectKeys && objectKeys[4]}</div>
+              </div>
+              <div>
+                <div type="text" className="matching-meaning">{objectValues && objectValues[0]}</div>
+                <div type="text" className="matching-meaning">{objectValues && objectValues[1]}</div>
+                <div type="text" className="matching-meaning">{objectValues && objectValues[2]}</div>
+                <div type="text" className="matching-meaning">{objectValues && objectValues[3]}</div>
+                <div type="text" className="matching-meaning">{objectValues && objectValues[4]}</div>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>  
-      <button onClick={handleGeneratePDF}>Download PDF</button>
-      
-    </div>
 
-
-      {/* <div className="min-h-[90vh] py-20 px-5 md:px-12 bg-gray-200">
-       <div className="App">
-         <input type="text" placeholder="Name" name="name" value={inputObject.name} onChange={handleInput} />
-         <input type="number" placeholder="Receipt ID" name="receiptId" value={inputObject.receiptId} onChange={handleInput} />
-         <input type="number" placeholder="Price 1" name="price1" value={inputObject.price1} onChange={handleInput} />
-         <input type="number" placeholder="Price 2" name="price2" value={inputObject.price2} onChange={handleInput} />
-         <button onClick={handleGeneratePDF}>Download PDF</button>
-       </div>
-     </div> */}
-    </>
+        <button onClick={() => {
+          handlePrint(null, () => contentToPrint.current);
+        }}>
+          PRINT
+        </button>
+      </>
   )
 }
 

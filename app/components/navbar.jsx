@@ -1,6 +1,5 @@
 import { GiHamburgerMenu } from "react-icons/gi";
 import { RxHamburgerMenu } from "react-icons/rx";
-import { MobileSidebar } from "./mobileSidebar";
 import { Sidebar } from "./sidebar";
 
 
