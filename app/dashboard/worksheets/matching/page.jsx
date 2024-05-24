@@ -2,7 +2,6 @@
 
 import { useState, useRef } from "react"
 import { useReactToPrint } from "react-to-print";
-import { PrintMe } from "@/app/components/PrintMe";
 import { OptionsMenu } from "../../components/OptionsMenu";
 
 const MatchingWorksheetPage = () => {
@@ -41,18 +40,14 @@ const MatchingWorksheetPage = () => {
 
 
 
-
+// old code for rea-time chat with OpenAI
   const handleApiCall = async (e) => {
-
     e.preventDefault();
-
     console.log("logging messages from handleApiCall", messages)
-
     const userMessage = {
       role: "user",
       content: prompt
     }
-
       const res = await fetch("/api/completion", {
         method: "POST",
         headers: {
@@ -60,19 +55,11 @@ const MatchingWorksheetPage = () => {
         },
         body: JSON.stringify([...messages, userMessage])
       })
-
       const data = await res.json()
-
       setMessages(prev => [...prev, userMessage, data])
-
       setAiResponse(data.content)
-
-
       console.log("data content is type:", typeof data.content)
-
       parseString(data.content)
-
-
   }
 
 
@@ -82,7 +69,6 @@ const MatchingWorksheetPage = () => {
     const value = e.target.value;
     setInputObject((prev) => ({...prev, [key]: value }))
   }
-
 
 
 
@@ -96,63 +82,56 @@ const MatchingWorksheetPage = () => {
 
 
 
-
   return (
-      <>
-        <div className="py-16 px-5 md:px-12">
+      <div className="pb-16">
+        <div className="py-16 px-5 md:px-12 bg-gray-100 border-b-2 border-gray-200">
           <h1 className="text-4xl mb-10 text-center font-semibold">Matching Exercises</h1>
           <OptionsMenu setObjectKeys={setObjectKeys} setObjectValues={setObjectValues} />
-          <h2 className="text-center text-2xl font-semibold">Testing place for OpenAI Api calls</h2>
-          <form onSubmit={handleApiCall}>
-              <textarea 
-                className="p-3" 
-                rows={5} 
-                cols={30} 
-                value={prompt} 
-                onChange={(e) => setPrompt(e.target.value)}
-              >
+        </div>
 
-              </textarea><br />
-            <button className="btn btn-secondary">Submit</button>
-          </form>
-
-          <div>
-            {aiResponse && (
-            <div>{aiResponse}</div>
-          )}
+        <div>
+          <div className="md:scale-[85%] w-full">
+          <div ref={contentToPrint} className="h-[1056px] w-[816px] max-w-[100%] mx-auto border-2 border-gray-300 shadow-lg p-6 overflow-hidden">
+              <div className="h-[200px]">
+              <h2 className="text-center text-4xl font-semibold pt-10 mb-4">Matching Exercise</h2>
+              <p className="text-center mb-16">Match the terms below with their respective definitions</p>
+              </div>
+              <div className="grid grid-cols-3 gap-x-3 py-5 h-[800px]">
+                <div className="col-span-1 w-full flex flex-col gap-y-5 mx-auto">
+                  <div type="text" className="matching-term">{objectKeys && objectKeys[0]}</div>
+                  <div type="text" className="matching-term">{objectKeys && objectKeys[1]}</div>
+                  <div type="text" className="matching-term">{objectKeys && objectKeys[2]}</div>
+                  <div type="text" className="matching-term">{objectKeys && objectKeys[3]}</div>
+                  <div type="text" className="matching-term">{objectKeys && objectKeys[4]}</div>
+                  <div type="text" className="matching-term">{objectKeys && objectKeys[5]}</div>
+                  <div type="text" className="matching-term">{objectKeys && objectKeys[6]}</div>
+                  <div type="text" className="matching-term">{objectKeys && objectKeys[7]}</div>
+                  <div type="text" className="matching-term">{objectKeys && objectKeys[8]}</div>
+                  <div type="text" className="matching-term">{objectKeys && objectKeys[9]}</div>
+                </div>
+                <div className="col-span-2 w-full flex flex-col gap-y-5 mx-auto">
+                  <div type="text" className="matching-meaning">{objectValues && objectValues[0]}</div>
+                  <div type="text" className="matching-meaning">{objectValues && objectValues[1]}</div>
+                  <div type="text" className="matching-meaning">{objectValues && objectValues[2]}</div>
+                  <div type="text" className="matching-meaning">{objectValues && objectValues[3]}</div>
+                  <div type="text" className="matching-meaning">{objectValues && objectValues[4]}</div>
+                  <div type="text" className="matching-meaning">{objectValues && objectValues[5]}</div>
+                  <div type="text" className="matching-meaning">{objectValues && objectValues[6]}</div>
+                  <div type="text" className="matching-meaning">{objectValues && objectValues[7]}</div>
+                  <div type="text" className="matching-meaning">{objectValues && objectValues[8]}</div>
+                  <div type="text" className="matching-meaning">{objectValues && objectValues[9]}</div>
+                </div>
+              </div>
+          </div>
           </div>
         </div>
 
-
-        <div className="pt-20 px-10">
-          <div ref={contentToPrint} className="min-h-[1056px] bg-yellow-50 p-6">
-            <h2 className="text-center text-4xl font-semibold mb-4">Matching Exercise</h2>
-            <p className="text-center mb-16">Match the terms below with their respective definitions</p>
-            <div className="grid grid-cols-2 gap-x-3">
-              <div className="bg-blue-200 min-w-[120px] mx-auto">
-                <div type="text" className="matching-term">{objectKeys && objectKeys[0]}</div>
-                <div type="text" className="matching-term">{objectKeys && objectKeys[1]}</div>
-                <div type="text" className="matching-term">{objectKeys && objectKeys[2]}</div>
-                <div type="text" className="matching-term">{objectKeys && objectKeys[3]}</div>
-                <div type="text" className="matching-term">{objectKeys && objectKeys[4]}</div>
-              </div>
-              <div>
-                <div type="text" className="matching-meaning">{objectValues && objectValues[0]}</div>
-                <div type="text" className="matching-meaning">{objectValues && objectValues[1]}</div>
-                <div type="text" className="matching-meaning">{objectValues && objectValues[2]}</div>
-                <div type="text" className="matching-meaning">{objectValues && objectValues[3]}</div>
-                <div type="text" className="matching-meaning">{objectValues && objectValues[4]}</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <button onClick={() => {
+        <button className="block mx-auto btn btn-secondary" onClick={() => {
           handlePrint(null, () => contentToPrint.current);
         }}>
-          PRINT
+          PRINT OR DOWNLOAD WORKSHEET
         </button>
-      </>
+      </div>
   )
 }
 

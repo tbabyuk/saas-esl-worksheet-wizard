@@ -15,9 +15,9 @@
 
 
 .matching-term {
-  @apply w-full mb-5 bg-green-400 mx-auto;
+  @apply w-[40%] mb-5 mx-auto;
 }
 
 .matching-meaning {
-  @apply w-[85%] mb-5 bg-green-400 mx-auto;
+  @apply w-[85%] mb-5 mx-auto;
 }
