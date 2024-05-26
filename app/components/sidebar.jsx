@@ -1,40 +1,42 @@
 "use client"
 import Link from "next/link"
-import { useState } from "react"
 import Image from "next/image"
-import { FaHamburger } from "react-icons/fa";
 import { IoSettingsOutline } from "react-icons/io5";
+import { LuLayoutDashboard } from "react-icons/lu";
+import { TiArrowShuffle } from "react-icons/ti";
+import { FaListUl } from "react-icons/fa";
+import { LuCheckSquare } from "react-icons/lu";
+import { MdOutlineFileDownloadDone } from "react-icons/md";
 
 
 
 const routes = [
   {
     label: "Dashboard",
-    icon: <FaHamburger className="h-5 w-5 mr-3" />,
+    icon: <LuLayoutDashboard className="h-[18px] w-[18px] mr-3" />,
     href: "/dashboard",
-    color: "text-sky-500"
   },
   {
     label: "Matching",
-    icon: <FaHamburger className="h-5 w-5 mr-3" />,
+    icon: <TiArrowShuffle className="h-5 w-5 mr-3" />,
     href: "/dashboard/worksheets/matching",
     color: "text-violet-500"
   },
   {
     label: "Multiple Choice",
-    icon: <FaHamburger className="h-5 w-5 mr-3" />,
+    icon: <FaListUl className="h-4 w-4 mr-4" />,
     href: "/worksheets/multiple-choice",
     color: "text-pink-700"
   },
   {
     label: "Fill in the blanks",
-    icon: <FaHamburger className="h-5 w-5 mr-3" />,
+    icon: <MdOutlineFileDownloadDone className="h-5 w-5 mr-3" />,
     href: "/worksheets/fill-in-the-blanks",
     color: "text-orange-700"
   },
   {
     label: "Grammar Correction",
-    icon: <FaHamburger className="h-5 w-5 mr-3" />,
+    icon: <LuCheckSquare className="h-4 w-4 mr-4" />,
     href: "/worksheets/grammar-correction",
     color: "text-emerald-500"
   },
