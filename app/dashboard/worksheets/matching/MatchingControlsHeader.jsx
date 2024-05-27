@@ -3,11 +3,22 @@
 import { useState } from "react";
 
 
-export const OptionsMenu = ({setObjectKeys, setObjectValues}) => {
+export const MatchingControlsHeader = ({setObjectKeys, setObjectValues}) => {
 
   const [exerciseType, setExerciseType] = useState("choose");
-  const [termsList, setTermsList] = useState("");
-  const [aiTopic, setAiTopic] = useState("");
+  const [userTermsList, setUserTermsList] = useState({
+    action: "action1",
+    termsList: ""
+  });
+  const [userTopicAndNumTerms, setUserTopicAndNumTerms] = useState({
+    action: "action2",
+    topic: "",
+    numTerms: ""
+  });
+
+
+  console.log("logging userTermsList:", userTermsList)
+  console.log("logging userTopicAndNumTerms:", userTopicAndNumTerms)
 
 
 
@@ -21,7 +32,6 @@ export const OptionsMenu = ({setObjectKeys, setObjectValues}) => {
 
     const parsedString = JSON.parse(stringObject);
 
-
     const keys = Object.keys(parsedString);
     setObjectKeys(keys)
     console.log("Logging keys from result:", keys)
@@ -32,34 +42,45 @@ export const OptionsMenu = ({setObjectKeys, setObjectValues}) => {
   }
 
 
-
-  const handleTermsList = async (e) => {
+  const handleUserTermsList = async (e) => {
     e.preventDefault();
-    console.log("Logging terms list:", termsList)
-    const termsListString = termsList;
+
     try {
         const res = await fetch("/api/matching", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(termsListString)
+            body: JSON.stringify(userTermsList)
+        })
+        
+        const {result} = await res.json();
+        parseString(result.content);
+
+        } catch(error) {
+            console.log("An error occured:", error.message)
+        }
+  }
+
+
+  const handleUserTopicAndNumTerms = async (e) => {
+    e.preventDefault();
+
+    try {
+        const res = await fetch("/api/matching", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(userTopicAndNumTerms)
         })
 
         const {result} = await res.json();
-
-        console.log("Logging API response from client:", result.content, typeof result.content)
-
         parseString(result.content);
 
-    } catch(error) {
-        console.log("An error occured:", error.message)
-    }
-  }
-
-  const handleAiTopic = (e) => {
-    e.preventDefault();
-    console.log("Logging ai topic:", aiTopic)
+        } catch(error) {
+            console.log("An error occured:", error.message)
+        }
   }
 
 
@@ -72,24 +93,24 @@ export const OptionsMenu = ({setObjectKeys, setObjectValues}) => {
                 <option value="ai">Have AI create both terms and their meanings, based on a topic.</option>
             </select>
             {exerciseType === "terms" && (
-                <form className="w-full mx-auto flex flex-col mb-8" onSubmit={handleTermsList}>
+                <form className="w-full mx-auto flex flex-col mb-8" onSubmit={handleUserTermsList}>
                     <label className="flex flex-col mb-8">
                         <span className="mb-2">Enter the terms you would like included:</span>
-                        <textarea className="textarea textarea-bordered" placeholder="e.g. term1, term2, term3" value={termsList} onChange={(e) => setTermsList(e.target.value)}></textarea>
+                        <textarea className="textarea textarea-bordered" placeholder="e.g. term1, term2, term3" value={userTermsList.termsList} onChange={(e) => setUserTermsList({...userTermsList, termsList: e.target.value})}></textarea>
                     </label>
                     <button className="btn btn-primary text-white">Generate Worksheet</button>
                 </form>
             )}
             {exerciseType === "ai" && (
-                <form className="w-full mx-auto flex flex-col mb-8" onSubmit={handleAiTopic}>
+                <form className="w-full mx-auto flex flex-col mb-8" onSubmit={handleUserTopicAndNumTerms}>
                     <label className="flex flex-col mb-8">
                         <span className="mb-2">Enter your topic:</span>
-                        <input type="text" placeholder="e.g. technology" className="input input-bordered w-full" value={aiTopic} onChange={(e) => setAiTopic(e.target.value)} />
+                        <input type="text" placeholder="e.g. technology" className="input input-bordered w-full" value={userTopicAndNumTerms.topic} onChange={(e) => setUserTopicAndNumTerms({...userTopicAndNumTerms, topic: e.target.value})} />
                     </label>
                     <label className="flex flex-col mb-8">
                         <span className="mb-2">Enter number of terms:</span>
                         {/* <input type="number" className="border p-2 mb-8" placeholder="e.g. 5 (max 10)" /> */}
-                        <input type="number" placeholder="e.g. 5 (max. 10)" className="input input-bordered w-full" value={aiTopic} onChange={(e) => setAiTopic(e.target.value)} />
+                        <input type="number" placeholder="e.g. 5 (max. 10)" className="input input-bordered w-full" value={userTopicAndNumTerms.numTerms} onChange={(e) => setUserTopicAndNumTerms({...userTopicAndNumTerms, numTerms: e.target.value})} />
                     </label>
                     <button className="btn btn-primary text-white">Generate Worksheet</button>
                 </form>
