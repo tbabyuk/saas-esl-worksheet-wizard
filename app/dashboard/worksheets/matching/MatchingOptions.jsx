@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 
-export const MatchingControlsHeader = ({setObjectKeys, setObjectValues}) => {
+export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
 
   const [exerciseType, setExerciseType] = useState("choose");
   const [userTermsList, setUserTermsList] = useState({
@@ -88,7 +88,7 @@ export const MatchingControlsHeader = ({setObjectKeys, setObjectValues}) => {
     <div className="w-full">
         <div className="w-[450px] max-w-[90%] mx-auto">
             <select className="select select-bordered w-full block mx-auto mb-8" value={exerciseType} onChange={(e) => setExerciseType(e.target.value)}>
-                <option value="choose" disabled>Choose matching exercise options</option>
+                <option value="choose" disabled>Choose your matching options:</option>
                 <option value="terms">Create a matching exercise from terms provided by me.</option>
                 <option value="ai">Have AI create both terms and their meanings, based on a topic.</option>
             </select>

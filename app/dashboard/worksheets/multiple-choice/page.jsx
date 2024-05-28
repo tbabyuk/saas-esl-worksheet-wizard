@@ -2,19 +2,21 @@
 
 import { useState, useRef } from "react"
 import { useReactToPrint } from "react-to-print";
-import { MatchingOptions } from "./MatchingOptions";
+import { MultipleChoiceOptions } from "./MultipleChoiceOptions";
 
 
 
-const MatchingWorksheetPage = () => {
+const MultipleChoiceWorksheetPage = () => {
 
   const contentToPrint = useRef(null);
 
-  const [objectKeys, setObjectKeys] = useState([]);
-  const [objectValues, setObjectValues] = useState([]);
+//   const [objectKeys, setObjectKeys] = useState([]);
+//   const [objectValues, setObjectValues] = useState([]);
+  const [questionsArray, setQuestionsArray] = useState([]);
 
-  console.log("Logging ai object keys:", objectKeys)
-  console.log("Logging ai object values:", objectValues)
+  console.log("Logging questions array from MC page.jsx:", questionsArray)
+
+
 
 
   const handlePrint = useReactToPrint({
@@ -29,8 +31,8 @@ const MatchingWorksheetPage = () => {
   return (
       <div className="pb-16">
         <div className="py-16 px-5 md:px-12 bg-gray-100 border-b-2 border-gray-200">
-          <h1 className="text-4xl mb-10 text-center font-semibold">Matching Exercises</h1>
-          <MatchingOptions setObjectKeys={setObjectKeys} setObjectValues={setObjectValues} />
+          <h1 className="text-4xl mb-10 text-center font-semibold">Multiple Choice Exercises</h1>
+          <MultipleChoiceOptions setQuestionsArray={setQuestionsArray} />
         </div>
 
         <div>
@@ -40,9 +42,9 @@ const MatchingWorksheetPage = () => {
               <h2 className="text-center text-4xl font-semibold pt-10 mb-4">Matching Exercise</h2>
               <p className="text-center mb-16">Match the terms below with their respective definitions</p>
               </div>
-              <div className="grid grid-cols-3 gap-x-3 py-5 h-[800px]">
-                <div className="col-span-1 w-full flex flex-col gap-y-5 mx-auto">
-                  <div type="text" className="matching-term">{objectKeys && objectKeys[0]}</div>
+              <div className="grid grid-cols-2 gap-x-3 py-5 h-[800px]">
+                <div className="w-full flex flex-col gap-y-5 mx-auto">
+                  {/* <div type="text" className="matching-term">{objectKeys && objectKeys[0]}</div>
                   <div type="text" className="matching-term">{objectKeys && objectKeys[1]}</div>
                   <div type="text" className="matching-term">{objectKeys && objectKeys[2]}</div>
                   <div type="text" className="matching-term">{objectKeys && objectKeys[3]}</div>
@@ -51,10 +53,27 @@ const MatchingWorksheetPage = () => {
                   <div type="text" className="matching-term">{objectKeys && objectKeys[6]}</div>
                   <div type="text" className="matching-term">{objectKeys && objectKeys[7]}</div>
                   <div type="text" className="matching-term">{objectKeys && objectKeys[8]}</div>
-                  <div type="text" className="matching-term">{objectKeys && objectKeys[9]}</div>
+                  <div type="text" className="matching-term">{objectKeys && objectKeys[9]}</div> */}
+                  {questionsArray && 
+
+                    questionsArray.map((item, index) => (
+                        <p key={index}>{item.question}</p>
+                    )) 
+                  }
+
                 </div>
-                <div className="col-span-2 w-full flex flex-col gap-y-5 mx-auto">
-                  <div type="text" className="matching-meaning">{objectValues && objectValues[0]}</div>
+                <div className="w-full flex flex-col gap-y-5 mx-auto">
+                    {questionsArray && 
+
+                        questionsArray.map((item, index) => (
+                            <ul key={index}>
+                                {item.choices.map((choice) => (
+                                    <li>{choice}</li>
+                                ))}
+                            </ul>
+                        )) 
+                    }
+                  {/* <div type="text" className="matching-meaning">{objectValues && objectValues[0]}</div>
                   <div type="text" className="matching-meaning">{objectValues && objectValues[1]}</div>
                   <div type="text" className="matching-meaning">{objectValues && objectValues[2]}</div>
                   <div type="text" className="matching-meaning">{objectValues && objectValues[3]}</div>
@@ -63,7 +82,7 @@ const MatchingWorksheetPage = () => {
                   <div type="text" className="matching-meaning">{objectValues && objectValues[6]}</div>
                   <div type="text" className="matching-meaning">{objectValues && objectValues[7]}</div>
                   <div type="text" className="matching-meaning">{objectValues && objectValues[8]}</div>
-                  <div type="text" className="matching-meaning">{objectValues && objectValues[9]}</div>
+                  <div type="text" className="matching-meaning">{objectValues && objectValues[9]}</div> */}
                 </div>
               </div>
           </div>
@@ -80,4 +99,4 @@ const MatchingWorksheetPage = () => {
 }
 
 
-export default MatchingWorksheetPage;
+export default MultipleChoiceWorksheetPage;

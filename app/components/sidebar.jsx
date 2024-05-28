@@ -25,7 +25,7 @@ const routes = [
   {
     label: "Multiple Choice",
     icon: <FaListUl className="h-4 w-4 mr-4" />,
-    href: "/worksheets/multiple-choice",
+    href: "/dashboard/worksheets/multiple-choice",
     color: "text-pink-700"
   },
   {
