@@ -31,7 +31,7 @@ const routes = [
   {
     label: "Fill in the blanks",
     icon: <MdOutlineFileDownloadDone className="h-5 w-5 mr-3" />,
-    href: "/worksheets/fill-in-the-blanks",
+    href: "/dashboard/worksheets/fill-in-the-blanks",
     color: "text-orange-700"
   },
   {

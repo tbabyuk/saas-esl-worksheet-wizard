@@ -9,14 +9,9 @@ import { MultipleChoiceOptions } from "./MultipleChoiceOptions";
 const MultipleChoiceWorksheetPage = () => {
 
   const contentToPrint = useRef(null);
-
-//   const [objectKeys, setObjectKeys] = useState([]);
-//   const [objectValues, setObjectValues] = useState([]);
   const [questionsArray, setQuestionsArray] = useState([]);
 
   console.log("Logging questions array from MC page.jsx:", questionsArray)
-
-
 
 
   const handlePrint = useReactToPrint({
@@ -38,51 +33,26 @@ const MultipleChoiceWorksheetPage = () => {
         <div>
           <div className="md:scale-[85%] w-full">
           <div ref={contentToPrint} className="h-[1056px] w-[816px] max-w-[100%] mx-auto border-2 border-gray-300 shadow-lg p-6 overflow-hidden">
-              <div className="h-[200px]">
-              <h2 className="text-center text-4xl font-semibold pt-10 mb-4">Matching Exercise</h2>
-              <p className="text-center mb-16">Match the terms below with their respective definitions</p>
+              <div className="h-[190px]">
+              <h2 className="text-center text-4xl font-semibold pt-10 mb-4">Multiple Choice Questions</h2>
+              <p className="text-center">Choose the correct answer from the below options.</p>
               </div>
-              <div className="grid grid-cols-2 gap-x-3 py-5 h-[800px]">
-                <div className="w-full flex flex-col gap-y-5 mx-auto">
-                  {/* <div type="text" className="matching-term">{objectKeys && objectKeys[0]}</div>
-                  <div type="text" className="matching-term">{objectKeys && objectKeys[1]}</div>
-                  <div type="text" className="matching-term">{objectKeys && objectKeys[2]}</div>
-                  <div type="text" className="matching-term">{objectKeys && objectKeys[3]}</div>
-                  <div type="text" className="matching-term">{objectKeys && objectKeys[4]}</div>
-                  <div type="text" className="matching-term">{objectKeys && objectKeys[5]}</div>
-                  <div type="text" className="matching-term">{objectKeys && objectKeys[6]}</div>
-                  <div type="text" className="matching-term">{objectKeys && objectKeys[7]}</div>
-                  <div type="text" className="matching-term">{objectKeys && objectKeys[8]}</div>
-                  <div type="text" className="matching-term">{objectKeys && objectKeys[9]}</div> */}
-                  {questionsArray && 
-
-                    questionsArray.map((item, index) => (
-                        <p key={index}>{item.question}</p>
-                    )) 
-                  }
-
-                </div>
-                <div className="w-full flex flex-col gap-y-5 mx-auto">
-                    {questionsArray && 
-
-                        questionsArray.map((item, index) => (
-                            <ul key={index}>
-                                {item.choices.map((choice) => (
-                                    <li>{choice}</li>
-                                ))}
+              <div className="px-8 h-[800px]">
+                <div className="w-full flex flex-col mx-auto">
+                  {questionsArray && (
+                    <div className="flex flex-col">
+                        {questionsArray.map((item, index) => (
+                            <div className="flex flex-col mb-7">
+                              <span key={index} className="mb-1 font-semibold">{index + 1}. {item.question}</span>
+                              <ul key={index} style={{listStyleType: "upper-alpha", listStylePosition: "inside"}}>
+                              {item.choices.map((choice) => (
+                                  <li>{choice}</li>
+                              ))}
                             </ul>
-                        )) 
-                    }
-                  {/* <div type="text" className="matching-meaning">{objectValues && objectValues[0]}</div>
-                  <div type="text" className="matching-meaning">{objectValues && objectValues[1]}</div>
-                  <div type="text" className="matching-meaning">{objectValues && objectValues[2]}</div>
-                  <div type="text" className="matching-meaning">{objectValues && objectValues[3]}</div>
-                  <div type="text" className="matching-meaning">{objectValues && objectValues[4]}</div>
-                  <div type="text" className="matching-meaning">{objectValues && objectValues[5]}</div>
-                  <div type="text" className="matching-meaning">{objectValues && objectValues[6]}</div>
-                  <div type="text" className="matching-meaning">{objectValues && objectValues[7]}</div>
-                  <div type="text" className="matching-meaning">{objectValues && objectValues[8]}</div>
-                  <div type="text" className="matching-meaning">{objectValues && objectValues[9]}</div> */}
+                          </div>
+                        ))}
+                    </div>
+                  )}
                 </div>
               </div>
           </div>

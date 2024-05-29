@@ -36,9 +36,9 @@ const MatchingWorksheetPage = () => {
         <div>
           <div className="md:scale-[85%] w-full">
           <div ref={contentToPrint} className="h-[1056px] w-[816px] max-w-[100%] mx-auto border-2 border-gray-300 shadow-lg p-6 overflow-hidden">
-              <div className="h-[200px]">
+              <div className="h-[190px]">
               <h2 className="text-center text-4xl font-semibold pt-10 mb-4">Matching Exercise</h2>
-              <p className="text-center mb-16">Match the terms below with their respective definitions</p>
+              <p className="text-center">Match the terms below with their respective definitions</p>
               </div>
               <div className="grid grid-cols-3 gap-x-3 py-5 h-[800px]">
                 <div className="col-span-1 w-full flex flex-col gap-y-5 mx-auto">

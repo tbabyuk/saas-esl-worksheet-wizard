@@ -17,26 +17,13 @@ export const MultipleChoiceOptions = ({setQuestionsArray}) => {
 
   const parseString = (string) => {
 
-    console.log("from parseString, logging string", string, typeof string)
-
-    // const objectRegex = /{[^{}]+}/;
-    // const arrayRegex = /\[[^\[\]]*\]/;
-    ;
-
-    // const stringObject = string.match(arrayRegex);
+    console.log("from parseString, logging string", string, typeof string);
 
     const parsedArray = JSON.parse(string);
 
     setQuestionsArray(parsedArray);
 
     console.log("Logging parsedString from MCOptions:", parsedArray, typeof parsedArray);
-
-    // const keys = Object.keys(parsedString);
-    // setObjectKeys(keys)
-    // console.log("Logging keys from result:", keys)
-    // const values = Object.values(parsedString);
-    // setObjectValues(values)
-    // console.log("Logging values from result:", values)
 
   }
 
@@ -74,7 +61,6 @@ export const MultipleChoiceOptions = ({setQuestionsArray}) => {
             <select className="select select-bordered w-full block mx-auto mb-8" value={exerciseType} onChange={(e) => setExerciseType(e.target.value)}>
                 <option value="choose" disabled>Choose your multiple choice options:</option>
                 <option value="text">Create multiple choice questions based on text provided by me.</option>
-                {/* <option value="ai">Have AI create both terms and their meanings, based on a topic.</option> */}
             </select>
             {exerciseType === "text" && (
                 <form className="w-full mx-auto flex flex-col mb-8" onSubmit={handleSubmitText}>
@@ -85,19 +71,6 @@ export const MultipleChoiceOptions = ({setQuestionsArray}) => {
                     <button className="btn btn-primary text-white">Generate Worksheet</button>
                 </form>
             )}
-            {/* {exerciseType === "ai" && (
-                <form className="w-full mx-auto flex flex-col mb-8" onSubmit={handleUserTopicAndNumTerms}>
-                    <label className="flex flex-col mb-8">
-                        <span className="mb-2">Enter your topic:</span>
-                        <input type="text" placeholder="e.g. technology" className="input input-bordered w-full" value={userTopicAndNumTerms.topic} onChange={(e) => setUserTopicAndNumTerms({...userTopicAndNumTerms, topic: e.target.value})} />
-                    </label>
-                    <label className="flex flex-col mb-8">
-                        <span className="mb-2">Enter number of terms:</span>
-                        <input type="number" placeholder="e.g. 5 (max. 10)" className="input input-bordered w-full" value={userTopicAndNumTerms.numTerms} onChange={(e) => setUserTopicAndNumTerms({...userTopicAndNumTerms, numTerms: e.target.value})} />
-                    </label>
-                    <button className="btn btn-primary text-white">Generate Worksheet</button>
-                </form>
-            )} */}
         </div>
     </div>
   )
