@@ -8,10 +8,10 @@ export const FillInTheBlanksOptions = ({setOutputWithBlanks}) => {
   const [exerciseType, setExerciseType] = useState("choose");
   const [blanksTarget, setBlanksTarget] = useState("choose")
   const [userPayload, setUserPayload] = useState({
-    activity: "blanks-from-text",
+    type: "choose",
     text: "",
     partOfSpeechAsBlanks: "choose",
-    wordsAsBlanks: "choose"
+    userWordsAsBlanks: "choose"
   });
 
 
@@ -37,26 +37,26 @@ export const FillInTheBlanksOptions = ({setOutputWithBlanks}) => {
     console.log("from submit, logging userPayload:", userPayload);
   
 
-    // try {
-    //     const res = await fetch("/api/fill-in-the-blanks", {
-    //         method: "POST",
-    //         headers: {
-    //             "Content-Type": "application/json"
-    //         },
-    //         body: JSON.stringify(userPayload)
-    //     });
+    try {
+        const res = await fetch("/api/fill-in-the-blanks", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(userPayload)
+        });
 
         
-    //     const {result} = await res.json();
+        const {result} = await res.json();
         
-    //     console.log("logging result from client:", result)
+        console.log("logging result from client:", result)
 
-    //     // parseString(result.content);
-    //     setOutputWithBlanks(result.content)
+        // parseString(result.content);
+        setOutputWithBlanks(result.content)
 
-    //     } catch(error) {
-    //         console.log("An error occured:", error.message)
-    //     }
+        } catch(error) {
+            console.log("An error occured:", error.message)
+        }
   }
 
 
@@ -75,13 +75,13 @@ export const FillInTheBlanksOptions = ({setOutputWithBlanks}) => {
                     </label>
                     <label className="flex flex-col mb-8">
                         <span className="mb-2">Choose how to create your blanks:</span>
-                        <select className="select select-bordered w-full block mx-auto" value={blanksTarget} onChange={(e) => setBlanksTarget(e.target.value)} required>
+                        <select className="select select-bordered w-full block mx-auto" value={userPayload.type} onChange={(e) => setUserPayload({...userPayload, type: e.target.value})} required>
                             <option value="choose" disabled>Choose:</option>
-                            <option value="part-of-speech">Create blanks based on a part of speech</option>
-                            <option value="words">Create blanks from words chosen by me</option>
+                            <option value="blanks-from-part-of-speech">Create blanks from a part of speech</option>
+                            <option value="blanks-from-user-words">Create blanks from words chosen by me</option>
                         </select>
                     </label>
-                    {blanksTarget === "part-of-speech" && (
+                    {userPayload.type === "blanks-from-part-of-speech" && (
                         <label className="flex flex-col mb-8">
                             <span className="mb-2">Choose part of speech to create blanks from:</span>
                             <select className="select select-bordered w-full block mx-auto mb-8" value={userPayload.partOfSpeechAsBlanks} onChange={(e) => setUserPayload({...userPayload, partOfSpeechAsBlanks: e.target.value})}>
@@ -93,10 +93,10 @@ export const FillInTheBlanksOptions = ({setOutputWithBlanks}) => {
                             </select>
                         </label>
                     )}
-                    {blanksTarget === "words" && (
+                    {userPayload.type === "blanks-from-user-words" && (
                         <label className="flex flex-col mb-8">
-                            <span className="mb-2">Choose specific words to display as blanks:</span>
-                            <textarea className="textarea textarea-bordered" placeholder="E.g. several, autonomous, victory" value={userPayload.wordsAsBlanks} onChange={(e) => setUserPayload({...userPayload, wordsAsBlanks: e.target.value})}></textarea>
+                            <span className="mb-2">Choose what words you would like displayed as blanks:</span>
+                            <textarea className="textarea textarea-bordered" placeholder="E.g. several, autonomous, victory" value={userPayload.userWordsAsBlanks} onChange={(e) => setUserPayload({...userPayload, userWordsAsBlanks: e.target.value})}></textarea>
                         </label>
                     )}
                     <button className="btn btn-primary text-white">Generate Worksheet</button>

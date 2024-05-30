@@ -10,6 +10,7 @@ const FillInTheBlanksWorksheetPage = () => {
 
   const contentToPrint = useRef(null);
   const [outputWithBlanks, setOutputWithBlanks] = useState("");
+  const [contentEditable, setContentEditable] = useState(false);
 
 //   console.log("Logging questions array from MC page.jsx:", questionsArray)
 
@@ -37,7 +38,8 @@ const FillInTheBlanksWorksheetPage = () => {
               <h2 className="text-center text-4xl font-semibold pt-10 mb-4">Fill-In-The-Blanks Questions</h2>
               <p className="text-center">Please complete the blanks below with an appropriate word.</p>
               </div>
-              <div className="px-8 leading-8 h-[800px]">
+              <button onClick={() => setContentEditable(true)}>EDIT CONTENT</button>
+              <div className="px-8 leading-8 h-[800px]" contentEditable={contentEditable}>
                 {outputWithBlanks && outputWithBlanks}
                 {/* <div className="w-full flex flex-col mx-auto">
 
