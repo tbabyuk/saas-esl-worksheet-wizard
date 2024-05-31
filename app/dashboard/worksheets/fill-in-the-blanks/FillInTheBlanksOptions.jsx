@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { TagsInput } from "../../components/TagsInput";
+import { TargetWordsInput } from "../../components/TargetWordsInput";
 
 
 export const FillInTheBlanksOptions = ({setOutputWithBlanks}) => {
@@ -11,8 +11,11 @@ export const FillInTheBlanksOptions = ({setOutputWithBlanks}) => {
     type: "choose",
     text: "",
     partOfSpeechAsBlanks: "choose",
-    userWordsAsBlanks: "choose"
+    userWordsAsBlanksArray: []
   });
+
+
+  console.log("Logging userPayload:", userPayload)
 
 
 
@@ -34,7 +37,8 @@ export const FillInTheBlanksOptions = ({setOutputWithBlanks}) => {
   const handleSubmitText = async (e) => {
     e.preventDefault();
 
-    console.log("from submit, logging userPayload:", userPayload);
+    // console.log("from submit, logging userPayload:", userPayload);
+    console.log("handleSubmit fired")
   
 
     try {
@@ -97,7 +101,7 @@ export const FillInTheBlanksOptions = ({setOutputWithBlanks}) => {
                         <label className="flex flex-col mb-8">
                             <span className="mb-2">Choose what words you would like displayed as blanks:</span>
                             {/* Textarea goes here */}
-                            <TagsInput userPayload={userPayload} setUserPayload={setUserPayload} />
+                            <TargetWordsInput userPayload={userPayload} setUserPayload={setUserPayload} />
                         </label>
                     )}
                     <button className="btn btn-primary text-white">Generate Worksheet</button>
