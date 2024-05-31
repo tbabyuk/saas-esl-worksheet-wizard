@@ -51,11 +51,11 @@ const MultipleChoiceWorksheetPage = () => {
                   {questionsArray && (
                     <div className="flex flex-col">
                         {questionsArray.map((item, index) => (
-                            <div className="flex flex-col mb-7">
-                              <span key={index} className="mb-1 font-semibold">{index + 1}. {item.question}</span>
-                              <ul key={index} style={{listStyleType: "upper-alpha", listStylePosition: "inside"}}>
-                              {item.choices.map((choice) => (
-                                  <li>{choice}</li>
+                            <div key={index} className="flex flex-col mb-7">
+                              <span className="mb-1 font-semibold">{index + 1}. {item.question}</span>
+                              <ul style={{listStyleType: "upper-alpha", listStylePosition: "inside"}}>
+                              {item.choices.map((choice, index) => (
+                                  <li key={index}>{choice}</li>
                               ))}
                             </ul>
                           </div>
