@@ -66,7 +66,7 @@ export const MultipleChoiceOptions = ({setQuestionsArray}) => {
                 <form className="w-full mx-auto flex flex-col mb-8" onSubmit={handleSubmitText}>
                     <label className="flex flex-col mb-8">
                         <span className="mb-2">Paste the text you would like to create multiple choice questions from:</span>
-                        <textarea className="textarea textarea-bordered" placeholder="paste your text here" value={userPayload.text} onChange={(e) => setUserPayload({...userPayload, text: e.target.value})}></textarea>
+                        <textarea className="textarea textarea-bordered h-[200px]" placeholder="paste your text here" value={userPayload.text} onChange={(e) => setUserPayload({...userPayload, text: e.target.value})}></textarea>
                     </label>
                     <button className="btn btn-primary text-white">Generate Worksheet</button>
                 </form>

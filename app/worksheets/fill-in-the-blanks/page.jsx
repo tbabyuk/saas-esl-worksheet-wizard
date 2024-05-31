@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react"
 import { useReactToPrint } from "react-to-print";
 import { FillInTheBlanksOptions } from "./FillInTheBlanksOptions";
+import { EditContentButton } from "../components/EditContentButton";
 
 
 
@@ -43,8 +44,8 @@ const FillInTheBlanksWorksheetPage = () => {
               <h2 className="text-center text-4xl font-semibold pt-10 mb-4">Fill-In-The-Blanks Questions</h2>
               <p className="text-center">Please complete the blanks below with an appropriate word.</p>
               </div>
-              <button className="px-3 py-2 rounded-md text-gray-400 font-semibold no-animation absolute -left-[90px] top-[30%] bg-gray-300 -rotate-90" onClick={() => setContentEditable(!contentEditable)}>{contentEditable ? "SAVE CONTENT" : "EDIT CONTENT"}</button>
-              <div className={`px-8 leading-8 h-[800px] ${contentEditable && "bg-gray-100"} overflow-y-hidden`} contentEditable={contentEditable} ref={contentEditableDiv}>
+              <EditContentButton contentEditable={contentEditable} setContentEditable={setContentEditable} />
+              <div className={`px-8 leading-8 h-[800px] overflow-y-hidden ${contentEditable && "bg-gray-100"}`} contentEditable={contentEditable} ref={contentEditableDiv}>
                 {outputWithBlanks && outputWithBlanks}
                 {/* <div className="w-full flex flex-col mx-auto">
 

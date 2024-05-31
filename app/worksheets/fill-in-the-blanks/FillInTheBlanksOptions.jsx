@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { TargetWordsInput } from "../../components/TargetWordsInput";
+import { TargetWordsInput } from "../multiple-choice/components/TargetWordsInput";
 
 
 export const FillInTheBlanksOptions = ({setOutputWithBlanks}) => {

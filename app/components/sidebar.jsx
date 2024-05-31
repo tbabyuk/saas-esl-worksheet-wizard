@@ -19,19 +19,19 @@ const routes = [
   {
     label: "Matching",
     icon: <TiArrowShuffle className="h-5 w-5 mr-3" />,
-    href: "/dashboard/worksheets/matching",
+    href: "/worksheets/matching",
     color: "text-violet-500"
   },
   {
     label: "Multiple Choice",
     icon: <FaListUl className="h-4 w-4 mr-4" />,
-    href: "/dashboard/worksheets/multiple-choice",
+    href: "/worksheets/multiple-choice",
     color: "text-pink-700"
   },
   {
     label: "Fill in the blanks",
     icon: <MdOutlineFileDownloadDone className="h-5 w-5 mr-3" />,
-    href: "/dashboard/worksheets/fill-in-the-blanks",
+    href: "/worksheets/fill-in-the-blanks",
     color: "text-orange-700"
   },
   {
