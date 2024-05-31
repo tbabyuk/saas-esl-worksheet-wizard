@@ -1,12 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import { TagsInput } from "../../components/TagsInput";
 
 
 export const FillInTheBlanksOptions = ({setOutputWithBlanks}) => {
 
   const [exerciseType, setExerciseType] = useState("choose");
-  const [blanksTarget, setBlanksTarget] = useState("choose")
   const [userPayload, setUserPayload] = useState({
     type: "choose",
     text: "",
@@ -71,7 +71,7 @@ export const FillInTheBlanksOptions = ({setOutputWithBlanks}) => {
                 <form className="w-full mx-auto flex flex-col mb-8" onSubmit={handleSubmitText}>
                     <label className="flex flex-col mb-8">
                         <span className="mb-2">Paste the text you would like to create a fill-in-the-blanks activity from:</span>
-                        <textarea className="textarea textarea-bordered" placeholder="paste your text here" value={userPayload.text} onChange={(e) => setUserPayload({...userPayload, text: e.target.value})}></textarea>
+                        <textarea className="textarea textarea-bordered h-[200px]" placeholder="paste your text here" value={userPayload.text} onChange={(e) => setUserPayload({...userPayload, text: e.target.value})}></textarea>
                     </label>
                     <label className="flex flex-col mb-8">
                         <span className="mb-2">Choose how to create your blanks:</span>
@@ -96,7 +96,8 @@ export const FillInTheBlanksOptions = ({setOutputWithBlanks}) => {
                     {userPayload.type === "blanks-from-user-words" && (
                         <label className="flex flex-col mb-8">
                             <span className="mb-2">Choose what words you would like displayed as blanks:</span>
-                            <textarea className="textarea textarea-bordered" placeholder="E.g. several, autonomous, victory" value={userPayload.userWordsAsBlanks} onChange={(e) => setUserPayload({...userPayload, userWordsAsBlanks: e.target.value})}></textarea>
+                            {/* Textarea goes here */}
+                            <TagsInput userPayload={userPayload} setUserPayload={setUserPayload} />
                         </label>
                     )}
                     <button className="btn btn-primary text-white">Generate Worksheet</button>

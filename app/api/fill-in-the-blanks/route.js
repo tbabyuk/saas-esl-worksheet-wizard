@@ -29,8 +29,7 @@ export async function POST(req) {
         console.log("from API: blanks from words fired===========")
 
         const completion = await openai.chat.completions.create({
-        messages: [{"role": "user", "content": `Hey chat, I need your help creating a fill-in-the-blanks activity for my students. Please use this text to help me: '${text}'. 
-        In this text, please replace the words ["pebble", "end", "Lily"] with a long underscore line, like this "________________" (maximum 16 characters long). It's important that you only replace these words, and no other words. If any of these words are preceded by an article like "a" or "the", do not replace the article, only the word. The case of these words does not matter. Finally, please return the resulting text to me as a string. Thank you.`}],
+        messages: [{"role": "user", "content": `Hey chat, I need your help creating a fill-in-the-blanks activity for my students. In this text: ${text}, please replace the words ["time", "grass", "bella"] with a long underscore line, like this "________________" (maximum 16 characters long). It's important that you only replace these words, and no other words. If any of these words are preceded by an article like "a" or "the", do not replace the article, only the word. The case of these words does not matter. Finally, please return the resulting text to me as a string. Thank you.`}],
         model: "gpt-3.5-turbo-16k",
         });
     
