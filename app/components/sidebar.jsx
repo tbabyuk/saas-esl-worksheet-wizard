@@ -1,4 +1,5 @@
 "use client"
+
 import Link from "next/link"
 import Image from "next/image"
 import { IoSettingsOutline } from "react-icons/io5";
@@ -7,7 +8,7 @@ import { TiArrowShuffle } from "react-icons/ti";
 import { FaListUl } from "react-icons/fa";
 import { LuCheckSquare } from "react-icons/lu";
 import { MdOutlineFileDownloadDone } from "react-icons/md";
-
+import { usePathname } from "next/navigation";
 
 
 const routes = [
@@ -50,6 +51,8 @@ const routes = [
 
 export const Sidebar = () => {
 
+  const path = usePathname();
+
   return (
         <aside className="space-y-4 py-4 flex flex-col h-full bg-[#111827] text-white">
           <div className="px-3 py-2 flex-1">
@@ -69,7 +72,7 @@ export const Sidebar = () => {
                 <Link
                   key={route.href}
                   href={route.href}
-                  className="text-sm group flex p-3 w-full justify-start cursor-pointer hover:text-white hover:bg-white/10 rounded-lg transition"
+                  className={`text-sm group flex p-3 w-full justify-start cursor-pointer hover:text-white hover:bg-white/10 rounded-lg transition ${path === route.href && "bg-white/10"}`}
                 >
                   <div className="flex items-center flex-1">
                     <span className={`${route.color}`}>{route.icon}</span>
