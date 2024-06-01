@@ -51,8 +51,9 @@ const DashboardPage = () => {
         <p className="text-sm md:text-lg text-center text-gray-500">Choose the type of worksheet you wish to create:</p>
       </div>
       <div className="px-4 md:px-20 lg:px-32 space-y-6">
-        {tools.map((tool) => (
-          <div 
+        {tools.map((tool, index) => (
+          <div
+            key={index}
             className="border-2 border-gray-100 shadow rounded-md flex justify-between items-center hover:shadow-lg hover:bg-gray-100 cursor-pointer p-3"
             onClick={() => router.push(tool.href)}
           >
