@@ -58,7 +58,7 @@ export default function Home() {
         <div className="min-h-[90vh] py-20 md:px-12">
           <p className="text-center text-4xl mb-12">Choose Your Plan</p>
           <div className="flex justify-center flex-wrap gap-3">
-                {planOptions.map((plan) => <PriceCard name={plan.name} cost={plan.cost} features={plan.features} />)}
+                {planOptions.map((plan, index) => <PriceCard key={index} name={plan.name} cost={plan.cost} features={plan.features} />)}
           </div>
         </div>
 
