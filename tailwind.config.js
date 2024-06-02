@@ -11,11 +11,11 @@ module.exports = {
   daisyui: {
     themes: [
       {
-        emerald: {
-          ...require("daisyui/src/theming/themes")["emerald"],
-          primary: "#122154",
-          secondary: "#81ADC8",
-          accent: "#F9627D"
+        bumblebee: {
+          ...require("daisyui/src/theming/themes")["bumblebee"],
+          primary: "#0B4F6C",
+          secondary: "#66A182",
+          accent: "#C97064",
         }
       }
     ],
@@ -27,8 +27,9 @@ module.exports = {
         roboto: ["var(--font-roboto)"],
       },
       colors: {
-        "primary-light": "#2c3e7c",
-        "custom-green": "#23CE6B"
+        "wizard-white": "#FFFCFF",
+        "custom-green": "#23CE6B",
+        "wizard-blue": "#94B0DA"
       }
     }
   }

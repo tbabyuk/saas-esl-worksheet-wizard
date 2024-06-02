@@ -1,20 +1,22 @@
 import { GiHamburgerMenu } from "react-icons/gi";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { Sidebar } from "./sidebar";
-
+import { SignOutButton } from "@clerk/nextjs";
+import { UserButton } from "@clerk/nextjs";
 
 
 export const Navbar = () => {
 
   return (
-      <div className="h-12 bg-[#4C956C]">
-        <div className="drawer md:hidden">
+      <div className="h-12 bg-[#3d405b]">
+        <div className="drawer">
           <input id="my-drawer" type="checkbox" className="drawer-toggle" />
-          <div className="drawer-content">
+          <div className="drawer-content text-white relative">
             {/* Page content here */}
-            <label htmlFor="my-drawer" className="btn btn-ghost drawer-button">
+            <label htmlFor="my-drawer" className="btn btn-ghost drawer-button md:hidden">
               <RxHamburgerMenu size="1.6rem" className="text-gray-100" />
             </label>
+            <div className="absolute top-2.5 right-3"><UserButton afterSignOutUrl="/"  /></div>
           </div> 
           <div className="drawer-side">
             <label htmlFor="my-drawer" aria-label="close sidebar" className="drawer-overlay"></label>
