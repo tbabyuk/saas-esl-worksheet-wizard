@@ -70,7 +70,17 @@ export async function POST(req) {
         try {
             await connectToESLWorksheetWizardDB()
 
-            await User.create({"name": "Max", "email": "max@gmail.com", "apiCount": 0})
+            // await User.create({"name": "Carl", "email": "eserhazy@gmail.com", "apiCount": 0})
+            await User.create({
+                // user_full_name: `${first_name} ${last_name}`,
+                // user_email: email_addresses[0].email_address,
+                // user_clerk_id: id,
+                // user_api_count: 0
+                user_full_name: first_name,
+                user_email: email_addresses[0].email_address,
+                user_clerk_id: id,
+                user_api_count: 0
+            })
         
             // return new Response(JSON.stringify(result), {status: 200})
             return NextResponse.json({message: "User successfully created!"}, {status: 201})

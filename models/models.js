@@ -3,15 +3,19 @@ import {Schema, model, models} from "mongoose"
 
 
 const userSchema = new Schema({
-    name: {
+    user_full_name: {
         type: String,
         required: true
     },
-    email: {
+    user_email: {
         type: String,
         required: true
     },
-    apiCount: {
+    user_clerk_id: {
+        type: String,
+        required: true
+    },
+    user_api_count: {
         type: Number,
         required: true
     }
