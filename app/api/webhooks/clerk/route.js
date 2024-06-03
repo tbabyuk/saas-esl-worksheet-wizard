@@ -56,7 +56,7 @@ export async function POST(req) {
 
     // Do something with the payload
     // For this guide, you simply log the payload to the console
-    const { id } = evt.data;
+    const { first_name, last_name, email_addresses, id } = evt.data;
     const eventType = evt.type;
     console.log(`=======================Webhook with and ID of ${id} and type of ${eventType}`)
     console.log('=======================Webhook body:', body)
@@ -70,13 +70,10 @@ export async function POST(req) {
         try {
             await connectToESLWorksheetWizardDB()
 
-            // await User.create({"name": "Carl", "email": "eserhazy@gmail.com", "apiCount": 0})
+            // add new user to database
             await User.create({
-                // user_full_name: `${first_name} ${last_name}`,
-                // user_email: email_addresses[0].email_address,
-                // user_clerk_id: id,
-                // user_api_count: 0
-                user_full_name: first_name,
+                user_first_name: first_name,
+                user_last_name: last_name,
                 user_email: email_addresses[0].email_address,
                 user_clerk_id: id,
                 user_api_count: 0
