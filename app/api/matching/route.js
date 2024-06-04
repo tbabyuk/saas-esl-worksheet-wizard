@@ -1,14 +1,21 @@
-
 import { NextResponse } from "next/server";
-
 import OpenAI from "openai";
+import { checkFreeTrialExists } from "../utils/apiLimitActions";
+
 
 const openai = new OpenAI();
 
 
 export async function POST(req) {
     const requestObject = await req.json();
-    const {action} = requestObject;
+    const {action, userId} = requestObject;
+
+
+    const freeTrialExists = await checkFreeTrialExists(userId);
+
+    if(!freeTrialExists) {
+        return NextResponse.json({message: "free trial no longer exists!"}, {status: 403})
+    }
 
     if (action === "action1") {
         const {termsList} = requestObject;

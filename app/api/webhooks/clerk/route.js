@@ -7,8 +7,6 @@ import { User } from "@/models/models";
 
 
 export async function POST(req) {
-    console.log('+++++++++++++++++Webhook endpoint hit++++++++++++++++++++');
-
     
     const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
 
@@ -58,25 +56,21 @@ export async function POST(req) {
     // For this guide, you simply log the payload to the console
     const { first_name, last_name, email_addresses, id } = evt.data;
     const eventType = evt.type;
-    console.log(`=======================Webhook with and ID of ${id} and type of ${eventType}`)
-    console.log('=======================Webhook body:', body)
 
 
     // CREATE USER
     if(eventType === "user.created") {
-
-        console.log("if block fired")
 
         try {
             await connectToESLWorksheetWizardDB()
 
             // add new user to database
             await User.create({
-                user_first_name: first_name,
-                user_last_name: last_name,
-                user_email: email_addresses[0].email_address,
-                user_clerk_id: id,
-                user_api_count: 0
+                userFirstName: first_name,
+                userLastName: last_name,
+                userEmail: email_addresses[0].email_address,
+                userClerkId: id,
+                userApiCount: 0
             })
         
             // return new Response(JSON.stringify(result), {status: 200})
@@ -84,7 +78,7 @@ export async function POST(req) {
     
         } catch (error) {
             // return new Response("Failed to fetch students", {status: 500})
-            return NextResponse.json({message: "Failed to fetch students"}, {status: 500})
+            return NextResponse.json({message: error.message}, {status: 500})
         }
     }
 
@@ -99,5 +93,4 @@ export async function POST(req) {
     // }
 
     return NextResponse.json({message: "Success!"}, {status: 200})
-
 }

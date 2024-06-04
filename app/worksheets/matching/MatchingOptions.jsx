@@ -1,9 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import { useUser } from "@clerk/nextjs";
 
 
 export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
+
+  const {user} = useUser();
+
+  console.log("logging current user:", user)
 
   const [exerciseType, setExerciseType] = useState("choose");
   const [userTermsList, setUserTermsList] = useState({
@@ -66,13 +71,18 @@ export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
   const handleUserTopicAndNumTerms = async (e) => {
     e.preventDefault();
 
+    const userTopicAndNumTermsWithUserId = {
+        ...userTopicAndNumTerms,
+        userId: user.id
+    }
+
     try {
         const res = await fetch("/api/matching", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(userTopicAndNumTerms)
+            body: JSON.stringify(userTopicAndNumTermsWithUserId)
         })
 
         const {result} = await res.json();
