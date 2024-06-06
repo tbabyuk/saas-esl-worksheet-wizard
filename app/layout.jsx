@@ -1,7 +1,7 @@
 import { Lora, Roboto } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "./components/navbar";
-import { Sidebar } from "./components/sidebar";
+import { Sidebar } from "./components/Sidebar";
 import { ClerkProvider } from "@clerk/nextjs";
 
 

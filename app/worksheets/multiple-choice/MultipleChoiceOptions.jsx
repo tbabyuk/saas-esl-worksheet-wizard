@@ -1,10 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import { useUser } from "@clerk/nextjs";
+
 
 
 export const MultipleChoiceOptions = ({setQuestionsArray}) => {
 
+  const {user} = useUser();
   const [exerciseType, setExerciseType] = useState("choose");
   const [userPayload, setUserPayload] = useState({
     name: "Bob",
@@ -34,12 +37,19 @@ export const MultipleChoiceOptions = ({setQuestionsArray}) => {
     console.log("from client handleSubmitText: fired", userPayload)
 
     try {
+
+        const userPayloadWithUserId = {
+            ...userPayload,
+            userId: user.id
+        }
+
+
         const res = await fetch("/api/multiple-choice", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(userPayload)
+            body: JSON.stringify(userPayloadWithUserId)
         });
 
         

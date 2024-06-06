@@ -2,10 +2,13 @@
 
 import { useState } from "react";
 import { TargetWordsInput } from "../multiple-choice/components/TargetWordsInput";
+import { useUser } from "@clerk/nextjs";
+
 
 
 export const FillInTheBlanksOptions = ({setOutputWithBlanks}) => {
 
+  const {user} = useUser();
   const [exerciseType, setExerciseType] = useState("choose");
   const [userPayload, setUserPayload] = useState({
     type: "choose",
@@ -42,12 +45,18 @@ export const FillInTheBlanksOptions = ({setOutputWithBlanks}) => {
   
 
     try {
+
+        const userPayloadWithUserId = {
+            ...userPayload,
+            userId: user.id
+        }
+
         const res = await fetch("/api/fill-in-the-blanks", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(userPayload)
+            body: JSON.stringify(userPayloadWithUserId)
         });
 
         

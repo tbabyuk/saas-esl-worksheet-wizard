@@ -1,6 +1,6 @@
 import { GiHamburgerMenu } from "react-icons/gi";
 import { RxHamburgerMenu } from "react-icons/rx";
-import { Sidebar } from "./sidebar";
+import { Sidebar } from "./Sidebar";
 import { SignOutButton } from "@clerk/nextjs";
 import { UserButton } from "@clerk/nextjs";
 

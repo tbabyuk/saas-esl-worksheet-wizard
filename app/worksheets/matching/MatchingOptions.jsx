@@ -2,11 +2,13 @@
 
 import { useState } from "react";
 import { useUser } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 
 
 export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
 
   const {user} = useUser();
+  const router = useRouter();
 
   console.log("logging current user:", user)
 
@@ -90,6 +92,8 @@ export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
 
         } catch(error) {
             console.log("An error occured:", error.message)
+        } finally {
+            router.refresh();
         }
   }
 
