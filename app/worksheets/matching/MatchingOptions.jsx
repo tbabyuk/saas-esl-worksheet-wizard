@@ -13,7 +13,7 @@ export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
   console.log("logging current user:", user)
 
   const [exerciseType, setExerciseType] = useState("choose");
-  const [userTermsList, setUserTermsList] = useState({
+  const [userTerms, setUserTerms] = useState({
     action: "action1",
     termsList: ""
   });
@@ -24,9 +24,8 @@ export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
   });
 
 
-  console.log("logging userTermsList:", userTermsList)
+  console.log("logging userTermsList:", userTerms)
   console.log("logging userTopicAndNumTerms:", userTopicAndNumTerms)
-
 
 
   const parseString = (string) => {
@@ -49,16 +48,22 @@ export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
   }
 
 
-  const handleUserTermsList = async (e) => {
+  const handleUserTerms = async (e) => {
     e.preventDefault();
 
+    const userTermsWithUserId = {
+        ...userTerms,
+        userId: user.id
+    }
+
     try {
+
         const res = await fetch("/api/matching", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(userTermsList)
+            body: JSON.stringify(userTermsWithUserId)
         })
         
         const {result} = await res.json();
@@ -107,10 +112,10 @@ export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
                 <option value="ai">Have AI create both terms and their meanings, based on a topic.</option>
             </select>
             {exerciseType === "terms" && (
-                <form className="w-full mx-auto flex flex-col mb-8" onSubmit={handleUserTermsList}>
+                <form className="w-full mx-auto flex flex-col mb-8" onSubmit={handleUserTerms}>
                     <label className="flex flex-col mb-8">
                         <span className="mb-2">Enter the terms you would like included:</span>
-                        <textarea className="textarea textarea-bordered" placeholder="e.g. term1, term2, term3" value={userTermsList.termsList} onChange={(e) => setUserTermsList({...userTermsList, termsList: e.target.value})}></textarea>
+                        <textarea className="textarea textarea-bordered" placeholder="e.g. term1, term2, term3" value={userTerms.termsList} onChange={(e) => setUserTerms({...userTerms, termsList: e.target.value})}></textarea>
                     </label>
                     <button className="btn btn-primary text-white">Generate Worksheet</button>
                 </form>
