@@ -10,6 +10,8 @@ import { LuCheckSquare } from "react-icons/lu";
 import { MdOutlineFileDownloadDone } from "react-icons/md";
 import { RiShoppingBag4Fill } from "react-icons/ri";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
+import { PriceCard } from "./PriceCard";
 
 
 const routes = [
@@ -45,10 +47,13 @@ const routes = [
 ]
 
 
+
 export const Sidebar = () => {
 
 
   const path = usePathname();
+  const [creditsModalIsOpen, setCreditsModalIsOpen] = useState(false);
+
 
   return (
         <aside className="space-y-4 py-4 flex flex-col h-full bg-[#111827] text-white relative">
@@ -81,6 +86,7 @@ export const Sidebar = () => {
             <Link
                   href="/buy-credits"
                   className={`text-sm mt-32 group flex p-3 w-full justify-start cursor-pointer hover:text-white hover:bg-white/10 rounded-lg transition ${path === "/buy-credits" && "bg-white/10"} bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white border-0`}
+                  onClick={() => setCreditsModalIsOpen(!creditsModalIsOpen)}
                 >
                   <div className="flex items-center flex-1">
                     <span>
