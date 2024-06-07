@@ -27,7 +27,7 @@ const BuyCreditsPage = () => {
     <div className="text-2xl mb-10 font-semibold text-center font-lora">
         <div className="font-lora text-3xl font-light py-14">Choose a plan that suits your needs:</div>
         <div className="flex justify-center flex-wrap gap-6">
-              {planOptions.map((plan, index) => <PriceCard key={index} name={plan.name} cost={plan.cost} features={plan.features} />)}
+              {planOptions.map((plan, index) => <PriceCard key={index} plan={plan} />)}
         </div>
     </div>
   )
