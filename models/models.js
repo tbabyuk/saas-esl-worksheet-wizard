@@ -22,9 +22,42 @@ const userSchema = new Schema({
     userApiCount: {
         type: Number,
         required: true
+    },
+    userIsOnFreeTrial: {
+        type: Boolean,
+        required: true
     }
 }, {timestamps: true})
 
 
+// const personSchema = new Schema({
+//     userFirstName: {
+//         type: String,
+//         required: true
+//     },
+//     userLastName: {
+//         type: String,
+//         required: true
+//     },
+//     userEmail: {
+//         type: String,
+//         required: true
+//     },
+//     userClerkId: {
+//         type: String,
+//         required: true
+//     },
+//     userApiCount: {
+//         type: Number,
+//         required: true
+//     },
+//     userIsOnFreeTrial: {
+//         type: Boolean,
+//         required: true
+//     }
+// }, {timestamps: true})
+
+
 
 export const User = models.User || model("User", userSchema);
+// export const Person = models.Person || model("Person", personSchema);

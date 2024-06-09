@@ -70,7 +70,8 @@ export async function POST(req) {
                 userLastName: last_name,
                 userEmail: email_addresses[0].email_address,
                 userClerkId: id,
-                userApiCount: 0
+                userApiCount: 10,
+                userIsOnFreeTrial: true
             })
         
             // return new Response(JSON.stringify(result), {status: 200})

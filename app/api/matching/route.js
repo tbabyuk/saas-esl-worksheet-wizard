@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
 import { checkFreeTrialExists, decrementUserApiCount } from "../utils/apiLimitActions";
+import { User } from "@/models/models";
+import { connectToESLWorksheetWizardDB } from "@/db/database";
 
 
 
@@ -13,11 +15,27 @@ export async function POST(req) {
 
     try {
 
-        const freeTrialExists = await checkFreeTrialExists(userId);
+        // const freeTrialExists = await checkFreeTrialExists(userId);
         
-        if(!freeTrialExists) {
-            return NextResponse.json({message: "free trial has expired!"}, {status: 403})
+        // if(!freeTrialExists) {
+        //     return NextResponse.json({message: "free trial has expired!"}, {status: 403})
+        // }
+
+
+        console.log("checkApiLimitReached function fired");
+        await connectToESLWorksheetWizardDB();
+    
+        // check if current user is still on the free trial
+        const user = await User.findOne({ userClerkId: userId });
+        if(user && user.userIsOnFreeTrial === true && user.userApiCount === 0) {
+            await User.findOneAndUpdate({ user }, {userIsOnFreeTrial: false});
+            return NextResponse.json({message: "your free trial has expired! time to buy credits!"}, {status: 403})
         }
+
+        if(user && user.userApiCount === 0) {
+            return NextResponse.json({message: "you are out of credits! time to get more!"}, {status: 403})
+        }
+        
 
         if (action === "action1") {
             const {termsList} = requestObject;
