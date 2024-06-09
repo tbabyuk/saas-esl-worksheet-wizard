@@ -11,7 +11,6 @@ import { MdOutlineFileDownloadDone } from "react-icons/md";
 import { RiShoppingBag4Fill } from "react-icons/ri";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { PriceCard } from "./PriceCard";
 
 
 const routes = [

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
-import { checkFreeTrialExists, incrementUserApiCount } from "../utils/apiLimitActions";
+import { checkFreeTrialExists, decrementUserApiCount } from "../utils/apiLimitActions";
 
 
 
@@ -27,7 +27,7 @@ export async function POST(req) {
                 model: "gpt-3.5-turbo-16k",
             });
 
-            await incrementUserApiCount(userId);
+            await decrementUserApiCount(userId);
 
             return NextResponse.json({result: completion.choices[0].message}, {status: 200})
         }

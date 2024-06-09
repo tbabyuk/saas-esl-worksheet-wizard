@@ -1,6 +1,6 @@
 
 import { NextResponse } from "next/server";
-import { checkFreeTrialExists, incrementUserApiCount } from "../utils/apiLimitActions";
+import { checkFreeTrialExists, decrementUserApiCount } from "../utils/apiLimitActions";
 
 
 import OpenAI from "openai";
@@ -26,7 +26,7 @@ export async function POST(req) {
         model: "gpt-3.5-turbo-16k",
     });
 
-    await incrementUserApiCount(userId);
+    await decrementUserApiCount(userId);
 
     console.log("Logging AI response from API:", completion.choices[0].message)
 

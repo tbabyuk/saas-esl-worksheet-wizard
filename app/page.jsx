@@ -1,31 +1,7 @@
 import Image from "next/image";
-import { PriceCard } from "./components/PriceCard";
 import Link from "next/link";
 import { SignInButton } from "@clerk/nextjs";
 
-
-const planOptions = [
-    {
-        name: "1-Day Pass",
-        cost: "$5.00",
-        features: "Unlimited Downloads"
-    },
-    {
-        name: "7-Day Pass",
-        cost: "$10.00",
-        features: "Unlimited Downloads"
-    },
-    {
-        name: "14-Day Pass",
-        cost: "$15.00",
-        features: "Unlimited Downloads"
-    },
-    {
-        name: "30-Day Pass",
-        cost: "$25.00",
-        features: "Unlimited Downloads"
-    },
-]
 
 
 export default function Home() {
@@ -58,7 +34,7 @@ export default function Home() {
         <div className="min-h-[90vh] py-20 md:px-12">
           <p className="text-center text-4xl mb-12">Choose Your Plan</p>
           <div className="flex justify-center flex-wrap gap-3">
-                {planOptions.map((plan, index) => <PriceCard key={index} name={plan.name} cost={plan.cost} features={plan.features} />)}
+                {/* {planOptions.map((plan, index) => <PriceCard key={index} name={plan.name} cost={plan.cost} features={plan.features} />)} */}
           </div>
         </div>
 

@@ -4,19 +4,41 @@ import { User } from "@/models/models";
 
 
 
+
 export async function POST(req) {
-    const {type} = await req.json();
-    console.log("logging evt from Stripe Webhook:", type)
+    const requestBody = await req.json();
 
+    const type = requestBody.type;
+    const amount = requestBody.data.object.amount;
+    const userClerkId = requestBody.data.object.metadata.userClerkId;
 
-        // CREATE USER
+        console.log("logging whole requestBody from Stripe webhook:", requestBody)
+        console.log("Logging type and amount:", type, amount)
+        console.log("logging userClerkId from Stripe Webhook:", userClerkId)
+
+        let numCreditsPurchased;
+
         if(type === "charge.succeeded") {
+
+            switch(amount) {
+                case 500:
+                    numCreditsPurchased = 20;
+                    break;
+                case 1000:
+                    numCreditsPurchased = 50;
+                    break;
+                case 1500:
+                    numCreditsPurchased = 100;
+                    break;
+            }
+
+            console.log("logging number of credits purchased:", numCreditsPurchased)
 
             try {
                 await connectToESLWorksheetWizardDB()
     
                 // add new user to database
-                await User.updateOne({ userEmail: "terry@strictlywebdev.com"}, {userApiCount: 20})
+                await User.updateOne({ userClerkId }, {userApiCount: numCreditsPurchased})
             
                 // return new Response(JSON.stringify(result), {status: 200})
                 console.log("credits update successful!")

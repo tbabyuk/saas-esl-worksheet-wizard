@@ -20,10 +20,10 @@ export const checkFreeTrialExists = async (userId) => {
 }
 
 
-export const incrementUserApiCount = async (userId) => {
+export const decrementUserApiCount = async (userId) => {
         console.log("incrementUserApiCount function fired");
         await connectToESLWorksheetWizardDB();
-        await User.findOneAndUpdate({ userClerkId: userId }, {$inc: {userApiCount: 1}});
+        await User.findOneAndUpdate({ userClerkId: userId }, {$inc: {userApiCount: -1}});
 }
 
 
