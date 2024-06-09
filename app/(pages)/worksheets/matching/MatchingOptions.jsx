@@ -22,6 +22,8 @@ export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
     topic: "",
     numTerms: ""
   });
+  const [freeTrialIsOverModal, setFreeTrialIsOverModal] = useState(false);
+  const [creditsFinishedModal, setCreditsFinishedModal] = useState(false)
 
 
   console.log("logging userTermsList:", userTerms)
@@ -70,7 +72,7 @@ export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
         parseString(result.content);
 
         } catch(error) {
-            console.log("An error occured:", error.message)
+            console.log("An error occured=================:", error)
         }
   }
 
@@ -92,14 +94,26 @@ export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
             body: JSON.stringify(userTopicAndNumTermsWithUserId)
         })
 
+        if(!res.ok) {
+            const {message} = await res.json();
+            if(message === "free trial expired") {
+                console.log("Free trial has expired")
+                setFreeTrialIsOverModal(true);
+            }
+            if(message === "out of credits") {
+                console.log("The user is out of credits!")
+                setCreditsFinishedModal(true)
+            }
+        }
+
         const {result} = await res.json();
         parseString(result.content);
 
-        } catch(error) {
-            console.log("An error occured:", error.message)
-        } finally {
-            router.refresh();
-        }
+    } catch(error) {
+        console.log("An error occured:", error)
+    } finally {
+        router.refresh();
+    }
   }
 
 
@@ -124,17 +138,43 @@ export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
                 <form className="w-full mx-auto flex flex-col mb-8" onSubmit={handleUserTopicAndNumTerms}>
                     <label className="flex flex-col mb-8">
                         <span className="mb-2">Enter your topic:</span>
-                        <input type="text" placeholder="e.g. technology" className="input input-bordered w-full" value={userTopicAndNumTerms.topic} onChange={(e) => setUserTopicAndNumTerms({...userTopicAndNumTerms, topic: e.target.value})} />
+                        <input 
+                            type="text" 
+                            placeholder="e.g. technology" 
+                            className="input input-bordered w-full" 
+                            value={userTopicAndNumTerms.topic} 
+                            onChange={(e) => setUserTopicAndNumTerms({...userTopicAndNumTerms, topic: e.target.value})}
+                            required 
+                        />
                     </label>
                     <label className="flex flex-col mb-8">
                         <span className="mb-2">Enter number of terms:</span>
                         {/* <input type="number" className="border p-2 mb-8" placeholder="e.g. 5 (max 10)" /> */}
-                        <input type="number" placeholder="e.g. 5 (max. 10)" className="input input-bordered w-full" value={userTopicAndNumTerms.numTerms} onChange={(e) => setUserTopicAndNumTerms({...userTopicAndNumTerms, numTerms: e.target.value})} />
+                        <input 
+                            type="number" 
+                            placeholder="e.g. 5 (max. 10)" 
+                            className="input input-bordered w-full" 
+                            value={userTopicAndNumTerms.numTerms} 
+                            onChange={(e) => setUserTopicAndNumTerms({...userTopicAndNumTerms, numTerms: e.target.value})}
+                            required 
+                        />
                     </label>
                     <button className="btn btn-primary text-white">Generate Worksheet</button>
                 </form>
             )}
         </div>
+
+        {freeTrialIsOverModal && (
+            <div className="fixed top-0 left-0 w-full h-[100%] z-50 bg-black/50 grid place-items-center">
+                <div className="bg-gray-100 h-[100px] w-[200px]">Your free trial is over, please buy credits!</div>
+            </div>
+        )}
+
+        {creditsFinishedModal && (
+            <div className="fixed top-0 left-0 w-full h-[100%] z-50 bg-black/50 grid place-items-center">
+                <div className="bg-gray-100 h-[100px] w-[200px]">Your credits are at 0, please buy more credits!</div>
+            </div>
+        )}
     </div>
   )
 }

@@ -15,28 +15,25 @@ export async function POST(req) {
 
     try {
 
-        // const freeTrialExists = await checkFreeTrialExists(userId);
-        
-        // if(!freeTrialExists) {
-        //     return NextResponse.json({message: "free trial has expired!"}, {status: 403})
-        // }
-
-
-        console.log("checkApiLimitReached function fired");
         await connectToESLWorksheetWizardDB();
     
-        // check if current user is still on the free trial
         const user = await User.findOne({ userClerkId: userId });
-        if(user && user.userIsOnFreeTrial === true && user.userApiCount === 0) {
-            await User.findOneAndUpdate({ user }, {userIsOnFreeTrial: false});
-            return NextResponse.json({message: "your free trial has expired! time to buy credits!"}, {status: 403})
+
+        if(!user) {
+            return NextResponse.json({message: "User not found!"}, {status: 404});
         }
 
-        if(user && user.userApiCount === 0) {
-            return NextResponse.json({message: "you are out of credits! time to get more!"}, {status: 403})
+        // check if current user is still on the free trial
+        if(user.userIsOnFreeTrial && user.userApiCount === 0) {
+            await User.findOneAndUpdate({ userClerkId: userId }, {userIsOnFreeTrial: false});
+            return NextResponse.json({message: "free trial expired"}, {status: 403});
+        }
+
+        // if user is no longer on free trial, check their ApiCount
+        if(!user.userIsOnFreeTrial && user.userApiCount === 0) {
+            return NextResponse.json({message: "out of credits"}, {status: 403})
         }
         
-
         if (action === "action1") {
             const {termsList} = requestObject;
 
@@ -59,7 +56,7 @@ export async function POST(req) {
                 model: "gpt-3.5-turbo-16k",
             });
 
-            await incrementUserApiCount(userId);
+            await decrementUserApiCount(userId);
 
             return NextResponse.json({result: completion.choices[0].message}, {status: 200})
         }
