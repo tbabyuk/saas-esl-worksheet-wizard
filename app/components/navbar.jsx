@@ -8,7 +8,7 @@ import { UserButton } from "@clerk/nextjs";
 export const Navbar = () => {
 
   return (
-      <div className="h-12 bg-[#3d405b]">
+      <div className="h-[45px] bg-[#3d405b]">
         <div className="drawer">
           <input id="my-drawer" type="checkbox" className="drawer-toggle" />
           <div className="drawer-content text-white relative">

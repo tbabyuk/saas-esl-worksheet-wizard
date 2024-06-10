@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 
@@ -9,6 +9,7 @@ export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
 
   const {user} = useUser();
   const router = useRouter();
+  const trialModalRef = useRef();
 
   console.log("logging current user:", user)
 
@@ -102,7 +103,7 @@ export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
             }
             if(message === "out of credits") {
                 console.log("The user is out of credits!")
-                setCreditsFinishedModal(true)
+                trialModalRef.current.showModal();
             }
         }
 
@@ -164,17 +165,19 @@ export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
             )}
         </div>
 
-        {freeTrialIsOverModal && (
-            <div className="fixed top-0 left-0 w-full h-[100%] z-50 bg-black/50 grid place-items-center">
-                <div className="bg-gray-100 h-[100px] w-[200px]">Your free trial is over, please buy credits!</div>
+        <dialog ref={trialModalRef} id="my_modal_3" className="modal">
+            <div className="modal-box">
+                <form method="dialog">
+                {/* if there is a button in form, it will close the modal */}
+                <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                </form>
+                <h3 className="font-bold text-lg text-center">Ooops! You are all out of credits!</h3>
+                <p className="py-4">To continue using the app, you will need to get more credits.</p>
+                <div className="text-center mt-4">
+                    <button className="btn btn-secondary text-gray-100" onClick={() => router.push("/buy-credits")}>Buy Credits</button>
+                </div>
             </div>
-        )}
-
-        {creditsFinishedModal && (
-            <div className="fixed top-0 left-0 w-full h-[100%] z-50 bg-black/50 grid place-items-center">
-                <div className="bg-gray-100 h-[100px] w-[200px]">Your credits are at 0, please buy more credits!</div>
-            </div>
-        )}
+        </dialog>
     </div>
   )
 }
