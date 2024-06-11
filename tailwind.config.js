@@ -13,9 +13,9 @@ module.exports = {
       {
         bumblebee: {
           ...require("daisyui/src/theming/themes")["bumblebee"],
-          primary: "#0B4F6C",
-          secondary: "#66A182",
-          accent: "#C97064",
+          primary: "#4B4A67",
+          secondary: "#8DB580",
+          accent: "#F28482",
         }
       }
     ],
@@ -27,9 +27,11 @@ module.exports = {
         roboto: ["var(--font-roboto)"],
       },
       colors: {
+        "wizard-dark-blue": "#2B2B3B",
+        "wizard-light-blue": "#4B4A67",
+        "wizard-dark-green": "#758d58",
+        "wizard-light-green": "#C2CFB2",
         "wizard-white": "#FFFCFF",
-        "custom-green": "#23CE6B",
-        "wizard-blue": "#94B0DA"
       }
     }
   }

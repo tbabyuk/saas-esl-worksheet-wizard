@@ -12,6 +12,13 @@
   background-color: #2c3e7c;
 }
 
+.action-btn {
+  @apply bg-emerald-500 hover:bg-emerald-600 text-wizard-white text-[0.95rem];
+}
+
+.gradient-btn {
+  @apply bg-gradient-to-r from-violet-500 to-emerald-500 text-white border-0;
+}
 
 .matching-term {
   @apply w-[40%] mb-5 mx-auto;

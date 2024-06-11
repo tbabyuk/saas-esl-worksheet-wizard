@@ -43,11 +43,11 @@ const routes = [
     href: "/worksheets/grammar-correction",
     color: "text-emerald-500"
   },
-  {
-    label: "Settings",
-    icon: <IoSettingsOutline className="h-4 w-4 mr-4" />,
-    href: "/settings",
-  },
+  // {
+  //   label: "Settings",
+  //   icon: <IoSettingsOutline className="h-4 w-4 mr-4" />,
+  //   href: "/settings",
+  // },
 ]
 
 
@@ -60,7 +60,7 @@ export const Sidebar = () => {
 
 
   return (
-        <aside className="space-y-4 py-4 flex flex-col h-full bg-[#111827] text-white relative">
+        <aside className="space-y-4 py-4 flex flex-col h-full bg-wizard-dark-blue text-white relative">
           <div className="px-3 py-2 flex-1">
             <Link href="/dashboard" className="flex items-center pl-3 mb-14">
                 <div className="relative w-5 h-5 mr-2">
@@ -89,7 +89,7 @@ export const Sidebar = () => {
             </div>
             <Link
                   href="/buy-credits"
-                  className={`text-sm mt-28 group flex p-3 w-full justify-start cursor-pointer hover:text-white hover:bg-white/10 rounded-lg transition ${path === "/buy-credits" && "bg-white/10"} bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white border-0`}
+                  className={`text-sm mt-28 group flex p-3 w-full justify-start cursor-pointer hover:text-white hover:bg-white/10 rounded-lg transition ${path === "/buy-credits" && "bg-white/10"} gradient-btn`}
                   onClick={() => setCreditsModalIsOpen(!creditsModalIsOpen)}
                 >
                   <div className="flex items-center flex-1">

@@ -3,7 +3,8 @@
 import { useState, useRef } from "react";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-
+import { OutOfCreditsModal } from "@/app/components/OutOfCreditsModal";
+import { MatchingTargetWordsInput } from "./components/MatchingTargetWordsInput";
 
 export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
 
@@ -16,15 +17,13 @@ export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
   const [exerciseType, setExerciseType] = useState("choose");
   const [userTerms, setUserTerms] = useState({
     action: "action1",
-    termsList: ""
+    userTermsArray: []
   });
   const [userTopicAndNumTerms, setUserTopicAndNumTerms] = useState({
     action: "action2",
     topic: "",
     numTerms: ""
   });
-  const [freeTrialIsOverModal, setFreeTrialIsOverModal] = useState(false);
-  const [creditsFinishedModal, setCreditsFinishedModal] = useState(false)
 
 
   console.log("logging userTermsList:", userTerms)
@@ -60,7 +59,6 @@ export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
     }
 
     try {
-
         const res = await fetch("/api/matching", {
             method: "POST",
             headers: {
@@ -130,7 +128,7 @@ export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
                 <form className="w-full mx-auto flex flex-col mb-8" onSubmit={handleUserTerms}>
                     <label className="flex flex-col mb-8">
                         <span className="mb-2">Enter the terms you would like included:</span>
-                        <textarea className="textarea textarea-bordered" placeholder="e.g. term1, term2, term3" value={userTerms.termsList} onChange={(e) => setUserTerms({...userTerms, termsList: e.target.value})}></textarea>
+                        <MatchingTargetWordsInput userTerms={userTerms} setUserTerms={setUserTerms} />
                     </label>
                     <button className="btn btn-primary text-white">Generate Worksheet</button>
                 </form>
@@ -160,24 +158,11 @@ export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
                             required 
                         />
                     </label>
-                    <button className="btn btn-primary text-white">Generate Worksheet</button>
+                    <button className="btn action-btn text-white">Generate Worksheet</button>
                 </form>
             )}
         </div>
-
-        <dialog ref={trialModalRef} id="my_modal_3" className="modal">
-            <div className="modal-box">
-                <form method="dialog">
-                {/* if there is a button in form, it will close the modal */}
-                <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
-                </form>
-                <h3 className="font-bold text-lg text-center">Ooops! You are all out of credits!</h3>
-                <p className="py-4">To continue using the app, you will need to get more credits.</p>
-                <div className="text-center mt-4">
-                    <button className="btn btn-secondary text-gray-100" onClick={() => router.push("/buy-credits")}>Buy Credits</button>
-                </div>
-            </div>
-        </dialog>
+        <OutOfCreditsModal trialModalRef={trialModalRef} />
     </div>
   )
 }

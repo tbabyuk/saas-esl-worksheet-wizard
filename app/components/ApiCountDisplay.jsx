@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 
 
-const SettingsPage = () => {
+export const ApiCountBalance = () => {
 
     const [numCredits, setNumCredits] = useState(null);
 
@@ -21,10 +21,6 @@ const SettingsPage = () => {
     }, [])
 
     return (
-      <div className="mt-12 ms-4">
-        <p className="mb-8 text-lg">You currently have: {numCredits && numCredits} credits</p>
-      </div>
+        <p className="text-lg text-center py-2 bg-emerald-500/10">Your credit balance: &nbsp;&nbsp; <span className="font-bold">{numCredits && numCredits} credits</span></p>
     )
   }
-
-export default SettingsPage;

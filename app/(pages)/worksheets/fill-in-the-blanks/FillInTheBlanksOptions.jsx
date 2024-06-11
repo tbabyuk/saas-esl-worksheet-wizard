@@ -109,7 +109,6 @@ export const FillInTheBlanksOptions = ({setOutputWithBlanks}) => {
                     {userPayload.type === "blanks-from-user-words" && (
                         <label className="flex flex-col mb-8">
                             <span className="mb-2">Choose what words you would like displayed as blanks:</span>
-                            {/* Textarea goes here */}
                             <TargetWordsInput userPayload={userPayload} setUserPayload={setUserPayload} />
                         </label>
                     )}

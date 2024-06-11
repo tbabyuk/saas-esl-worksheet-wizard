@@ -6,7 +6,7 @@ import { LuCheckSquare } from "react-icons/lu";
 import { MdOutlineFileDownloadDone } from "react-icons/md";
 import { FaArrowRight } from "react-icons/fa6";
 import { useRouter } from "next/navigation";
-
+import { ApiCountBalance } from "../components/ApiCountDisplay";
 
 const tools = [
   {
@@ -46,8 +46,9 @@ const DashboardPage = () => {
     
   return (
     <div className="py-20">
-      <div className="space-y-4 pb-20">
+      <div className="space-y-6 pb-20">
         <h2 className="text-2xl md:text-3xl font-bold text-center">Create Amazing ESL Worksheets in Seconds with the help of AI!</h2>
+        <ApiCountBalance />
         <p className="text-sm md:text-lg text-center text-gray-500">Choose the type of worksheet you wish to create:</p>
       </div>
       <div className="px-4 md:px-20 lg:px-32 space-y-6">

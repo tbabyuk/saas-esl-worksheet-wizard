@@ -43,7 +43,7 @@ export const PlanCard = ({numCredits, cost, features}) => {
                     ))}
                 </ul>
                 <hr className="my-8 border-gray-300"></hr>
-                <button className="btn font-roboto bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white border-0" onClick={() => handleCheckout(numCredits)}>Buy Credits</button>
+                <button className="btn font-roboto gradient-btn" onClick={() => handleCheckout(numCredits)}>Buy Credits</button>
             </div>
         </div>
     )
