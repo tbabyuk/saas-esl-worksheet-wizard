@@ -3,14 +3,15 @@
 import { useState, useRef } from "react";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
+import { FreeTrialFinishedModal } from "@/app/components/FreeTrialFinishedModal";
 import { OutOfCreditsModal } from "@/app/components/OutOfCreditsModal";
 import { MatchingTargetWordsInput } from "./components/MatchingTargetWordsInput";
 
 export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
 
   const {user} = useUser();
-  const router = useRouter();
-  const trialModalRef = useRef();
+  const freeTrialFinishedModalRef = useRef();
+  const outOfCreditsModalRef = useRef();
 
   console.log("logging current user:", user)
 
@@ -73,12 +74,24 @@ export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
             },
             body: JSON.stringify(userTerms)
         })
+
+        if(!res.ok) {
+            const {message} = await res.json();
+            if(message === "free trial expired") {
+                console.log("Free trial has expired")
+                freeTrialFinishedModalRef.current.showModal();
+            }
+            if(message === "out of credits") {
+                console.log("The user is out of credits!")
+                outOfCreditsModalRef.current.showModal();
+            }
+        }
         
         const {result} = await res.json();
         parseString(result.content);
 
         } catch(error) {
-            console.log("An error occured=================:", error)
+            console.log("An error occured:", error)
         }
   }
 
@@ -99,11 +112,11 @@ export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
             const {message} = await res.json();
             if(message === "free trial expired") {
                 console.log("Free trial has expired")
-                setFreeTrialIsOverModal(true);
+                freeTrialFinishedModalRef.current.showModal();
             }
             if(message === "out of credits") {
                 console.log("The user is out of credits!")
-                trialModalRef.current.showModal();
+                outOfCreditsModalRef.current.showModal();
             }
         }
 
@@ -112,8 +125,6 @@ export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
 
     } catch(error) {
         console.log("An error occured:", error)
-    } finally {
-        router.refresh();
     }
   }
 
@@ -164,7 +175,8 @@ export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
                 </form>
             )}
         </div>
-        <OutOfCreditsModal trialModalRef={trialModalRef} />
+        <FreeTrialFinishedModal freeTrialFinishedModalRef={freeTrialFinishedModalRef} />
+        <OutOfCreditsModal outOfCreditsModalRef={outOfCreditsModalRef} />
     </div>
   )
 }
