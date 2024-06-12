@@ -92,9 +92,9 @@ export const Sidebar = () => {
                   className={`text-sm mt-28 group flex p-3 w-full justify-start cursor-pointer hover:text-white hover:bg-white/10 rounded-lg transition ${path === "/buy-credits" && "bg-white/10"} gradient-btn`}
                   onClick={() => setCreditsModalIsOpen(!creditsModalIsOpen)}
                 >
-                  <div className="flex items-center flex-1">
+                  <div className="flex justify-center items-center flex-1">
                     <span>
-                        <RiShoppingBag4Fill className="h-5 w-5 mr-3" />
+                        <RiShoppingBag4Fill className="h-5 w-5 mr-2" />
                     </span>
                     Buy Credits
                   </div>
