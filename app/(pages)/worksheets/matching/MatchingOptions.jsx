@@ -30,6 +30,15 @@ export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
   console.log("logging userTopicAndNumTerms:", userTopicAndNumTerms)
 
 
+  function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+  
+
   const parseString = (string) => {
 
     console.log("from parseString, logging string", string, typeof string)
@@ -40,23 +49,21 @@ export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
 
     const parsedString = JSON.parse(stringObject);
 
+    console.log("logging parsed String from MatchingOptions:", parsedString)
+    
     const keys = Object.keys(parsedString);
-    setObjectKeys(keys)
-    console.log("Logging keys from result:", keys)
-    const values = Object.values(parsedString);
-    setObjectValues(values)
-    console.log("Logging values from result:", values)
 
+    setObjectKeys(Object.keys(parsedString));
+    console.log("Logging keys from result:", keys)
+
+    const values = Object.values(parsedString);
+    setObjectValues(shuffleArray(values))
+    console.log("Logging values from result:", values)
   }
 
 
   const handleUserTerms = async (e) => {
     e.preventDefault();
-
-    const userTermsWithUserId = {
-        ...userTerms,
-        userId: user.id
-    }
 
     try {
         const res = await fetch("/api/matching", {
@@ -64,7 +71,7 @@ export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(userTermsWithUserId)
+            body: JSON.stringify(userTerms)
         })
         
         const {result} = await res.json();
@@ -79,18 +86,13 @@ export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
   const handleUserTopicAndNumTerms = async (e) => {
     e.preventDefault();
 
-    const userTopicAndNumTermsWithUserId = {
-        ...userTopicAndNumTerms,
-        userId: user.id
-    }
-
     try {
         const res = await fetch("/api/matching", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(userTopicAndNumTermsWithUserId)
+            body: JSON.stringify(userTopicAndNumTerms)
         })
 
         if(!res.ok) {
@@ -130,7 +132,7 @@ export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
                         <span className="mb-2">Enter the terms you would like included:</span>
                         <MatchingTargetWordsInput userTerms={userTerms} setUserTerms={setUserTerms} />
                     </label>
-                    <button className="btn btn-primary text-white">Generate Worksheet</button>
+                    <button className="btn action-btn text-white">Generate Worksheet</button>
                 </form>
             )}
             {exerciseType === "ai" && (

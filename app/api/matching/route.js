@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
-import { checkFreeTrialExists, decrementUserApiCount } from "../utils/apiLimitActions";
+import { decrementUserApiCount } from "../utils/apiLimitActions";
 import { User } from "@/models/models";
 import { connectToESLWorksheetWizardDB } from "@/db/database";
+import { auth } from '@clerk/nextjs/server';
+
 
 
 
@@ -11,7 +13,9 @@ const openai = new OpenAI();
 
 export async function POST(req) {
     const requestObject = await req.json();
-    const {action, userId} = requestObject;
+    const {action} = requestObject;
+    const {userId} = auth();
+
 
     try {
 
@@ -35,10 +39,10 @@ export async function POST(req) {
         }
         
         if (action === "action1") {
-            const {termsList} = requestObject;
+            const {userTermsArray} = requestObject;
 
             const completion = await openai.chat.completions.create({
-                messages: [{"role": "user", "content": `Hey chat, I am an ESL English teacher and I need your help creating a matching exercise for my students. Please generate for me the definitions for these terms: ${termsList}. Please keep the definitions to under 23 words. Then, please return both the terms and their corresponding definitions as a JSON object, where the terms are the keys and the definitions are the values. It's very important that you return only these keys and values in the JSON object and nothing else.`}],
+                messages: [{"role": "user", "content": `Hey chat, I am an ESL English teacher and I need your help creating a matching exercise for my students. Please generate for me the definitions for these terms: ${userTermsArray}. Please keep the definitions to under 23 words. Then, please return both the terms and their corresponding definitions as a JSON object, where the terms are the keys and the definitions are the values. It's very important that you return only these keys and values in the JSON object and nothing else.`}],
                 model: "gpt-3.5-turbo-16k",
             });
 

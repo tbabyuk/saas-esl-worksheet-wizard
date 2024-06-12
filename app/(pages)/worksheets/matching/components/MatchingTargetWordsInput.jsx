@@ -35,7 +35,7 @@ export const MatchingTargetWordsInput = ({userTerms, setUserTerms}) => {
 
     return (
         <>
-            <input type="text" placeholder="press 'Enter' after each word" className="input input-bordered w-full" onChange={(e) => setCurrentValue(e.target.value)} value={currentValue} onKeyDown={handleAddWord} />
+            <input type="text" placeholder="press 'Enter' after each term" className="input input-bordered w-full" onChange={(e) => setCurrentValue(e.target.value)} value={currentValue} onKeyDown={handleAddWord} />
             <div className="mt-4 flex flex-wrap gap-2">
                 {userTermsArray &&
                     userTermsArray.map((word) => (

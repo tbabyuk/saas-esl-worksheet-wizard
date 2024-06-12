@@ -1,26 +1,27 @@
-"use client"
+import { connectToESLWorksheetWizardDB } from "@/db/database";
+import { User } from "@/models/models";
+import { auth } from '@clerk/nextjs/server';
 
-import { useState, useEffect } from "react";
+
+const getApiCount = async () => {
+
+    const {userId} = auth();
+
+    try {
+        await connectToESLWorksheetWizardDB();
+        const user = await User.findOne({ userClerkId: userId });
+        return user.userApiCount;
+    } catch (error) {
+        console.log(error)
+    }
+}
 
 
-export const ApiCountBalance = () => {
+export const ApiCountDisplay = async () => {
 
-    const [numCredits, setNumCredits] = useState(null);
-
-    useEffect(() => {
-        const fetchCredits = async () => {
-            try {
-                const res = await fetch("/api/credits");
-                const {result} = await res.json();
-                setNumCredits(result)
-            } catch (error) {
-                console.log(error)
-            }
-        }
-        fetchCredits();
-    }, [])
+    const count = await getApiCount()
 
     return (
-        <p className="text-lg text-center py-2 bg-emerald-500/10">Your credit balance: &nbsp;&nbsp; <span className="font-bold">{numCredits && numCredits} credits</span></p>
+        <p className="text-lg text-center py-2 bg-emerald-500/10">Your credit balance: &nbsp;&nbsp; <span className="font-bold">{count} {count > 1 ? "credits" : "credit"}</span></p>
     )
   }
