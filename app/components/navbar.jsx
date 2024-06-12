@@ -1,6 +1,6 @@
 import { GiHamburgerMenu } from "react-icons/gi";
 import { RxHamburgerMenu } from "react-icons/rx";
-import { Sidebar } from "./Sidebar";
+import { Sidenav } from "./Sidenav";
 import { SignOutButton } from "@clerk/nextjs";
 import { UserButton } from "@clerk/nextjs";
 
@@ -22,7 +22,7 @@ export const Navbar = () => {
             <label htmlFor="my-drawer" aria-label="close sidebar" className="drawer-overlay"></label>
             <ul className="menu p-0 w-[210px] min-h-full bg-[#111827] text-base-content">
               {/* Sidebar content here */}
-              <Sidebar />
+              <Sidenav />
             </ul>
           </div>
         </div>
