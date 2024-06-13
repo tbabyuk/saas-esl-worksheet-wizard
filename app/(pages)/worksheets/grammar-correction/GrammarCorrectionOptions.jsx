@@ -4,7 +4,7 @@
 import { useState } from "react";
 
 
-export const GrammarCorrectionOptions = ({setObjectKeys, setObjectValues}) => {
+export const GrammarCorrectionOptions = ({setOutputArray}) => {
 
   const [exerciseType, setExerciseType] = useState("choose");
   const [userTermsList, setUserTermsList] = useState({
@@ -16,31 +16,37 @@ export const GrammarCorrectionOptions = ({setObjectKeys, setObjectValues}) => {
     topic: "",
     numTerms: ""
   });
-  const [userGrammarTopic, setUserGrammarTopic] = useState({
-    topic: "",
-    numSentences: null
+  const [userGrammarTopicPayload, setUserGrammarTopicPayload] = useState({
+    grammarTopic: "choose",
+    numSentences: ""
   })
 
+  const [resultsArray, setResultsArray] = useState([]);
 
-  console.log("logging userGrammarTopic", userGrammarTopic)
+
+  console.log("logging userGrammarTopic", userGrammarTopicPayload)
 
 
   const parseString = (string) => {
 
-    console.log("from parseString, logging string", string, typeof string)
+    const parsedArray = JSON.parse(string);
 
-    const objectRegex = /{[^{}]+}/;
+    setOutputArray(parsedArray);
 
-    const stringObject = string.match(objectRegex)[0];
+    // console.log("from parseString, logging string", string, typeof string)
 
-    const parsedString = JSON.parse(stringObject);
+    // const objectRegex = /{[^{}]+}/;
 
-    const keys = Object.keys(parsedString);
-    setObjectKeys(keys)
-    console.log("Logging keys from result:", keys)
-    const values = Object.values(parsedString);
-    setObjectValues(values)
-    console.log("Logging values from result:", values)
+    // const stringObject = string.match(objectRegex)[0];
+
+    // const parsedString = JSON.parse(stringObject);
+
+    // const keys = Object.keys(parsedString);
+    // setObjectKeys(keys)
+    // console.log("Logging keys from result:", keys)
+    // const values = Object.values(parsedString);
+    // setObjectValues(values)
+    // console.log("Logging values from result:", values)
 
   }
 
@@ -56,9 +62,11 @@ export const GrammarCorrectionOptions = ({setObjectKeys, setObjectValues}) => {
             },
             body: JSON.stringify(userTermsList)
         })
+
+        const data = await res.json();
         
-        const {result} = await res.json();
-        parseString(result.content);
+        // const {result} = await res.json();
+        // parseString(result.content);
 
         } catch(error) {
             console.log("An error occured:", error.message)
@@ -66,20 +74,23 @@ export const GrammarCorrectionOptions = ({setObjectKeys, setObjectValues}) => {
   }
 
 
-  const handleUserTopicAndNumTerms = async (e) => {
+  const handleUserGrammarTopicPayload = async (e) => {
     e.preventDefault();
 
+    console.log("Handle Fired")
+
     try {
-        const res = await fetch("/api/matching", {
+        const res = await fetch("/api/grammar", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(userTopicAndNumTerms)
+            body: JSON.stringify(userGrammarTopicPayload)
         })
 
         const {result} = await res.json();
-        parseString(result.content);
+        console.log("Logging result from handleUserGrammarPayload on front end:", result.content)
+        parseString(result.content)
 
         } catch(error) {
             console.log("An error occured:", error.message)
@@ -105,14 +116,19 @@ export const GrammarCorrectionOptions = ({setObjectKeys, setObjectValues}) => {
                 </form>
             )}
             {exerciseType === "specific" && (
-                <form className="w-full mx-auto flex flex-col mb-8" onSubmit={handleUserTopicAndNumTerms}>
+                <form className="w-full mx-auto flex flex-col mb-8" onSubmit={handleUserGrammarTopicPayload}>
                     {/* <label className="flex flex-col mb-8">
                         <span className="mb-2">Enter your topic:</span>
                         <input type="text" placeholder="e.g. technology" className="input input-bordered w-full" value={userTopicAndNumTerms.topic} onChange={(e) => setUserTopicAndNumTerms({...userTopicAndNumTerms, topic: e.target.value})} />
                     </label> */}
                     <label className="flex flex-col mb-8">
                         <span className="mb-2">Choose grammar topic:</span>
-                        <select className="select select-bordered w-full block mx-auto" value={userGrammarTopic.topic} onChange={(e) => setUserGrammarTopic((prev) => ({...prev, topic: e.target.value }))}>
+                        <select 
+                            className="select select-bordered w-full block mx-auto" 
+                            value={userGrammarTopicPayload.grammarTopic} 
+                            onChange={(e) => setUserGrammarTopicPayload((prev) => ({...prev, grammarTopic: e.target.value }))}
+                            required={userGrammarTopicPayload.grammarTopic === "choose" ? true : false}
+                        >
                                 <option value="choose" disabled>Choose:</option>
                                 <option value="subject-verb-agreement">subject-verb agreement</option>
                                 <option value="sentence-fragments">sentence fragments</option>
@@ -125,7 +141,14 @@ export const GrammarCorrectionOptions = ({setObjectKeys, setObjectValues}) => {
                     <label className="flex flex-col mb-8">
                         <span className="mb-2">Enter number of sentences to generate:</span>
                         {/* <input type="number" className="border p-2 mb-8" placeholder="e.g. 5 (max 10)" /> */}
-                        <input type="number" placeholder="e.g. 5 (max. 10)" className="input input-bordered w-full" value={userGrammarTopic.numSentences} onChange={(e) => setUserGrammarTopic((prev) => ({...prev, numSentences: e.target.value}))} />
+                        <input 
+                            type="number" 
+                            placeholder="e.g. 5 (max. 10)" 
+                            className="input input-bordered w-full" 
+                            value={userGrammarTopicPayload.numSentences} 
+                            onChange={(e) => setUserGrammarTopicPayload((prev) => ({...prev, numSentences: e.target.value}))}
+                            required 
+                        />
                     </label>
                     <button className="btn action-btn text-white">Generate Worksheet</button>
                 </form>
