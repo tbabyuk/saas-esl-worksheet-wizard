@@ -84,7 +84,7 @@ export const MultipleChoiceOptions = ({setQuestionsArray}) => {
     <div className="w-full">
         <div className="w-[450px] max-w-[90%] mx-auto">
             <select className="select select-bordered w-full block mx-auto mb-8" value={exerciseType} onChange={(e) => setExerciseType(e.target.value)}>
-                <option value="choose" disabled>Choose your multiple choice options:</option>
+                <option value="choose" disabled>Choose your multiple choice worksheet options:</option>
                 <option value="text">Create multiple choice questions based on text provided by me.</option>
             </select>
             {exerciseType === "text" && (

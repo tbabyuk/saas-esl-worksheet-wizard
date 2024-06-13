@@ -16,11 +16,13 @@ export const GrammarCorrectionOptions = ({setObjectKeys, setObjectValues}) => {
     topic: "",
     numTerms: ""
   });
+  const [userGrammarTopic, setUserGrammarTopic] = useState({
+    topic: "",
+    numSentences: null
+  })
 
 
-  console.log("logging userTermsList:", userTermsList)
-  console.log("logging userTopicAndNumTerms:", userTopicAndNumTerms)
-
+  console.log("logging userGrammarTopic", userGrammarTopic)
 
 
   const parseString = (string) => {
@@ -89,9 +91,9 @@ export const GrammarCorrectionOptions = ({setObjectKeys, setObjectValues}) => {
     <div className="w-full">
         <div className="w-[450px] max-w-[90%] mx-auto">
             <select className="select select-bordered w-full block mx-auto mb-8" value={exerciseType} onChange={(e) => setExerciseType(e.target.value)}>
-                <option value="choose" disabled>Choose your grammar correction options:</option>
+                <option value="choose" disabled>Choose your grammar worksheet options:</option>
+                <option value="specific">Generate sentences with mistakes based on a grammar topic.</option>
                 <option value="grandom">Generate text with random grammar mistakes.</option>
-                <option value="specific">Generate text with mistakes based on a specific grammar component.</option>
             </select>
             {exerciseType === "random" && (
                 <form className="w-full mx-auto flex flex-col mb-8" onSubmit={handleUserTermsList}>
@@ -104,16 +106,28 @@ export const GrammarCorrectionOptions = ({setObjectKeys, setObjectValues}) => {
             )}
             {exerciseType === "specific" && (
                 <form className="w-full mx-auto flex flex-col mb-8" onSubmit={handleUserTopicAndNumTerms}>
-                    <label className="flex flex-col mb-8">
+                    {/* <label className="flex flex-col mb-8">
                         <span className="mb-2">Enter your topic:</span>
                         <input type="text" placeholder="e.g. technology" className="input input-bordered w-full" value={userTopicAndNumTerms.topic} onChange={(e) => setUserTopicAndNumTerms({...userTopicAndNumTerms, topic: e.target.value})} />
+                    </label> */}
+                    <label className="flex flex-col mb-8">
+                        <span className="mb-2">Choose grammar topic:</span>
+                        <select className="select select-bordered w-full block mx-auto" value={userGrammarTopic.topic} onChange={(e) => setUserGrammarTopic((prev) => ({...prev, topic: e.target.value }))}>
+                                <option value="choose" disabled>Choose:</option>
+                                <option value="subject-verb-agreement">subject-verb agreement</option>
+                                <option value="sentence-fragments">sentence fragments</option>
+                                <option value="run-on-sentences">run-on-sentences</option>
+                                <option value="wrong-pronoun-usage">wrong pronoun usage</option>
+                                <option value="double-negatives">double negatives</option>
+                                <option value="wrong-tense">wrong tense</option>
+                        </select>
                     </label>
                     <label className="flex flex-col mb-8">
-                        <span className="mb-2">Enter number of terms:</span>
+                        <span className="mb-2">Enter number of sentences to generate:</span>
                         {/* <input type="number" className="border p-2 mb-8" placeholder="e.g. 5 (max 10)" /> */}
-                        <input type="number" placeholder="e.g. 5 (max. 10)" className="input input-bordered w-full" value={userTopicAndNumTerms.numTerms} onChange={(e) => setUserTopicAndNumTerms({...userTopicAndNumTerms, numTerms: e.target.value})} />
+                        <input type="number" placeholder="e.g. 5 (max. 10)" className="input input-bordered w-full" value={userGrammarTopic.numSentences} onChange={(e) => setUserGrammarTopic((prev) => ({...prev, numSentences: e.target.value}))} />
                     </label>
-                    <button className="btn btn-primary text-white">Generate Worksheet</button>
+                    <button className="btn action-btn text-white">Generate Worksheet</button>
                 </form>
             )}
         </div>

@@ -55,10 +55,10 @@ const GrammarCorrectionWorksheetPage = () => {
           </div>
         </div>
 
-        <button className="block mx-auto btn btn-secondary" onClick={() => {
+        <button className="btn action-btn block mx-auto" onClick={() => {
           handlePrint(null, () => contentToPrint.current);
         }}>
-          PRINT OR DOWNLOAD WORKSHEET
+            Print or Download Worksheet
         </button>
       </div>
   )
