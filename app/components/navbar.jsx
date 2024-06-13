@@ -1,5 +1,5 @@
 import { RxHamburgerMenu } from "react-icons/rx";
-import { Sidebar } from "./Sidebar";
+import { Sidebar } from "./sidebar";
 import { UserButton } from "@clerk/nextjs";
 
 
