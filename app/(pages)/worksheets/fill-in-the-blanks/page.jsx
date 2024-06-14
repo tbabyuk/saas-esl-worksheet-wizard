@@ -31,7 +31,7 @@ const FillInTheBlanksWorksheetPage = () => {
   return (
       <div className="pb-16">
         <div className="py-16 px-5 md:px-12 bg-gray-100 border-b-2 border-gray-200">
-          <h1 className="text-4xl mb-10 text-center font-semibold">Fill-In-The-Blanks Exercises</h1>
+          <h1 className="text-3xl mb-10 text-center font-semibold">Create a Fill-In-The-Blanks Worksheet</h1>
           <FillInTheBlanksOptions setOutputWithBlanks={setOutputWithBlanks} />
         </div>
 
@@ -39,7 +39,7 @@ const FillInTheBlanksWorksheetPage = () => {
           <div className="md:scale-[85%] w-full">
           <div ref={contentToPrint} className="h-[1056px] w-[816px] max-w-[100%] mx-auto border-2 border-gray-300 shadow-lg p-6 relative">
               <div className="h-[190px]">
-              <h2 className="text-center text-4xl font-semibold pt-10 mb-4">Fill-In-The-Blanks Questions</h2>
+              <h2 className="text-center text-4xl font-semibold pt-10 mb-4">Fill-In-The-Blanks Worksheet</h2>
               <p className="text-center">Please complete the blanks below with an appropriate word.</p>
               </div>
               <EditContentButton contentEditable={contentEditable} setContentEditable={setContentEditable} />

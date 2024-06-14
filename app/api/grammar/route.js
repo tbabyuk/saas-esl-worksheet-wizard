@@ -16,7 +16,6 @@ export async function POST(req) {
     const {grammarTopic, numSentences} = requestObject;
     const {userId} = auth();
 
-
     console.log("logging grammarTopic and numSentences from API:", grammarTopic, numSentences)
 
 
@@ -40,7 +39,6 @@ export async function POST(req) {
         if(!user.userIsOnFreeTrial && user.userApiCount === 0) {
             return NextResponse.json({message: "out of credits"}, {status: 403})
         }
-
 
 
         const completion = await openai.chat.completions.create({

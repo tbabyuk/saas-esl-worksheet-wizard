@@ -24,33 +24,14 @@ export const GrammarCorrectionOptions = ({setOutputArray}) => {
 
   const [grammarTopicError, setGrammarTopicError] = useState("");
 
-  const [resultsArray, setResultsArray] = useState([]);
-
 
   console.log("logging userGrammarTopic", userGrammarTopicPayload)
 
 
   const parseString = (string) => {
-
+    console.log("logging string to parse from parseString func:", string)
     const parsedArray = JSON.parse(string);
-
     setOutputArray(parsedArray);
-
-    // console.log("from parseString, logging string", string, typeof string)
-
-    // const objectRegex = /{[^{}]+}/;
-
-    // const stringObject = string.match(objectRegex)[0];
-
-    // const parsedString = JSON.parse(stringObject);
-
-    // const keys = Object.keys(parsedString);
-    // setObjectKeys(keys)
-    // console.log("Logging keys from result:", keys)
-    // const values = Object.values(parsedString);
-    // setObjectValues(values)
-    // console.log("Logging values from result:", values)
-
   }
 
   const handleNumSentencesInput = (e) => {
@@ -105,7 +86,7 @@ export const GrammarCorrectionOptions = ({setOutputArray}) => {
         <div className="w-[450px] max-w-[90%] mx-auto">
             <select className="select select-bordered w-full block mx-auto mb-8" value={exerciseType} onChange={(e) => setExerciseType(e.target.value)}>
                 <option value="choose" disabled>Choose your grammar worksheet options:</option>
-                <option value="specific">Generate sentences with mistakes based on a grammar topic.</option>
+                <option value="grammar-topic">Generate sentences with mistakes based on a grammar topic.</option>
                 {/* <option value="grandom">Generate text with random grammar mistakes.</option> */}
             </select>
             {/* {exerciseType === "random" && (
@@ -117,7 +98,7 @@ export const GrammarCorrectionOptions = ({setOutputArray}) => {
                     <button className="btn btn-primary text-white">Generate Worksheet</button>
                 </form>
             )} */}
-            {exerciseType === "specific" && (
+            {exerciseType === "grammar-topic" && (
                 <form className="w-full mx-auto flex flex-col mb-8" onSubmit={handleUserGrammarTopicPayload}>
                     <label className="flex flex-col mb-8">
                         <span className="mb-2">Choose grammar topic:</span>
@@ -125,7 +106,7 @@ export const GrammarCorrectionOptions = ({setOutputArray}) => {
                             className="select select-bordered w-full block mx-auto" 
                             value={userGrammarTopicPayload.grammarTopic} 
                             onChange={(e) => handleUserGrammarTopicSelect(e)}
-                            required={userGrammarTopicPayload.grammarTopic === "choose" ? true : false}
+                            // required={userGrammarTopicPayload.grammarTopic === "choose" ? true : false}
                         >
                                 <option value="choose" disabled>Choose:</option>
                                 <option value="subject-verb-agreement">subject-verb agreement</option>
