@@ -1,7 +1,6 @@
 import Link from "next/link"
 
 
-
 export const FreeTrialFinishedModal = ({freeTrialFinishedModalRef}) => {
 
   return (
@@ -14,7 +13,7 @@ export const FreeTrialFinishedModal = ({freeTrialFinishedModalRef}) => {
                 <h3 className="font-bold text-lg text-center">Ooops! Your free trial is finished!</h3>
                 <p className="py-4 text-center">To continue using the app, you will need to get credits.</p>
                 <div className="text-center mt-4">
-                    <Link href="/buy-credits" className="btn gradient-btn text-gray-100" onClick={() => router.push("/buy-credits")}>Buy Credits</Link>
+                    <Link href="/buy-credits" className="btn gradient-btn text-gray-100">Buy Credits</Link>
                 </div>
             </div>
         </dialog>  

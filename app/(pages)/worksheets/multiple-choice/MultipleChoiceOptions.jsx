@@ -48,10 +48,12 @@ export const MultipleChoiceOptions = ({setQuestionsArray}) => {
             if(message === "free trial expired") {
                 console.log("Free trial has expired")
                 freeTrialFinishedModalRef.current.showModal();
+                return;
             }
             if(message === "out of credits") {
                 console.log("The user is out of credits!")
                 outOfCreditsModalRef.current.showModal();
+                return;
             }
         }
 

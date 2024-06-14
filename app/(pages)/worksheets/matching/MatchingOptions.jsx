@@ -118,7 +118,7 @@ export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(userTopicPayload)
-        })
+        });
 
         if(!res.ok) {
             const {message} = await res.json();

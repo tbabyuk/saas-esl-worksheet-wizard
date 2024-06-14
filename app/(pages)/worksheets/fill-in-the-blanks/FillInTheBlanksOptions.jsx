@@ -1,11 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { ErrorWarning } from "@/app/components/ErrorWarning";
 import { BlanksTargetWordsInput } from "./components/BlanksTargetWordsInput";
+import { FreeTrialFinishedModal } from "@/app/components/FreeTrialFinishedModal";
+import { OutOfCreditsModal } from "@/app/components/OutOfCreditsModal";
 
 
 export const FillInTheBlanksOptions = ({setOutputWithBlanks}) => {
+
+  const freeTrialFinishedModalRef = useRef();
+  const outOfCreditsModalRef = useRef();
 
   const [exerciseType, setExerciseType] = useState("choose");
   const [userBlanksPayload, setUserBlanksPayload] = useState({
@@ -49,7 +54,6 @@ export const FillInTheBlanksOptions = ({setOutputWithBlanks}) => {
         return;
     }
 
-  
     try {
         const res = await fetch("/api/fill-in-the-blanks", {
             method: "POST",
@@ -59,11 +63,24 @@ export const FillInTheBlanksOptions = ({setOutputWithBlanks}) => {
             body: JSON.stringify(userBlanksPayload)
         });
 
+        if(!res.ok) {
+            const {message} = await res.json();
+            if(message === "free trial expired") {
+                console.log("Free trial has expired")
+                freeTrialFinishedModalRef.current.showModal();
+                return;
+            }
+            if(message === "out of credits") {
+                console.log("The user is out of credits!")
+                outOfCreditsModalRef.current.showModal();
+                return;
+            }
+        }
+
         const {result} = await res.json();
         
         console.log("logging result from client:", result)
 
-        // parseString(result.content);
         setOutputWithBlanks(result.content)
 
         } catch(error) {
@@ -129,6 +146,8 @@ export const FillInTheBlanksOptions = ({setOutputWithBlanks}) => {
                 </form>
             )}
         </div>
+        <FreeTrialFinishedModal freeTrialFinishedModalRef={freeTrialFinishedModalRef} />
+        <OutOfCreditsModal outOfCreditsModalRef={outOfCreditsModalRef} />
     </div>
   )
 }

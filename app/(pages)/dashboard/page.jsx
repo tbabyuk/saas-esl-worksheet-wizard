@@ -47,7 +47,7 @@ const DashboardPage = () => {
   return (
     <div className="py-16">
       <div className="mb-16">
-        <h2 className="text-2xl md:text-3xl mb-5 font-bold text-center">Create Amazing ESL Worksheets in Seconds with the help of AI!</h2>
+        <h2 className="text-2xl md:text-3xl mb-5 font-bold text-center text-gray-600">Create Amazing ESL Worksheets in Seconds with the help of AI!</h2>
         <Suspense fallback={<Loading />}>
           <ApiCountDisplay />
         </Suspense>

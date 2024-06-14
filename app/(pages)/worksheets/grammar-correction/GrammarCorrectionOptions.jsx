@@ -1,11 +1,15 @@
 "use client";
 
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { ErrorWarning } from "@/app/components/ErrorWarning";
-
+import { FreeTrialFinishedModal } from "@/app/components/FreeTrialFinishedModal";
+import { OutOfCreditsModal } from "@/app/components/OutOfCreditsModal";
 
 export const GrammarCorrectionOptions = ({setOutputArray}) => {
+
+  const freeTrialFinishedModalRef = useRef();
+  const outOfCreditsModalRef = useRef();
 
   const [exerciseType, setExerciseType] = useState("choose");
 //   const [userTermsList, setUserTermsList] = useState({
@@ -70,6 +74,20 @@ export const GrammarCorrectionOptions = ({setOutputArray}) => {
             },
             body: JSON.stringify(userGrammarTopicPayload)
         })
+
+        if(!res.ok) {
+            const {message} = await res.json();
+            if(message === "free trial expired") {
+                console.log("Free trial has expired")
+                freeTrialFinishedModalRef.current.showModal();
+                return;
+            }
+            if(message === "out of credits") {
+                console.log("The user is out of credits!")
+                outOfCreditsModalRef.current.showModal();
+                return;
+            }
+        }
 
         const {result} = await res.json();
         console.log("Logging result from handleUserGrammarPayload on front end:", result.content)
@@ -136,6 +154,8 @@ export const GrammarCorrectionOptions = ({setOutputArray}) => {
                 </form>
             )}
         </div>
+        <FreeTrialFinishedModal freeTrialFinishedModalRef={freeTrialFinishedModalRef} />
+        <OutOfCreditsModal outOfCreditsModalRef={outOfCreditsModalRef} />
     </div>
   )
 }
