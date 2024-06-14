@@ -5,7 +5,7 @@ import { RxCross2 } from "react-icons/rx";
 
 
 
-export const MatchingTargetWordsInput = ({userTerms, setUserTerms}) => {
+export const MatchingTargetWordsInput = ({userTerms, setUserTerms, inputError, setInputError}) => {
 
     const [currentValue, setCurrentValue] = useState("");
     const {userTermsArray} = userTerms;
@@ -22,6 +22,7 @@ export const MatchingTargetWordsInput = ({userTerms, setUserTerms}) => {
             }))
             setCurrentValue("");
         }
+        setInputError("")
     }
 
     const handleDeleteWord = (e) => {
@@ -35,7 +36,16 @@ export const MatchingTargetWordsInput = ({userTerms, setUserTerms}) => {
 
     return (
         <>
-            <input type="text" placeholder="press 'Enter' after each term" className="input input-bordered w-full" onChange={(e) => setCurrentValue(e.target.value)} value={currentValue} onKeyDown={handleAddWord} />
+            <input 
+                type="text" 
+                placeholder="press 'Enter' after each term" 
+                className="input input-bordered w-full" 
+                onChange={(e) => setCurrentValue(e.target.value)} value={currentValue} 
+                onKeyDown={handleAddWord} 
+            />
+            {inputError && (
+                <p className="text-sm text-red-500 px-2">{inputError}</p>
+            )}
             <div className="mt-4 flex flex-wrap gap-2">
                 {userTermsArray &&
                     userTermsArray.map((word) => (

@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { FreeTrialFinishedModal } from "@/app/components/FreeTrialFinishedModal";
 import { OutOfCreditsModal } from "@/app/components/OutOfCreditsModal";
 import { MatchingTargetWordsInput } from "./components/MatchingTargetWordsInput";
+import { ErrorWarning } from "@/app/components/ErrorWarning";
 
 export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
 
@@ -25,6 +26,7 @@ export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
     topic: "",
     numTerms: ""
   });
+  const [inputError, setInputError] = useState("");
 
 
   console.log("logging userTermsList:", userTerms)
@@ -63,8 +65,23 @@ export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
   }
 
 
+  const handleNumTerms = (e) => {
+    const userInput = e.target.value;
+    if(userInput > 10) {
+        setUserTopicAndNumTerms((prev) => ({...prev, numTerms: 10}))
+    } else {
+        setUserTopicAndNumTerms((prev) => ({...prev, numTerms: e.target.value}))
+    }
+  }
+
+
   const handleUserTerms = async (e) => {
     e.preventDefault();
+
+    if(userTerms.userTermsArray.length === 0) {
+        setInputError("you must enter at least one term before submitting")
+        return;
+    }
 
     try {
         const res = await fetch("/api/matching", {
@@ -134,16 +151,17 @@ export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
         <div className="w-[450px] max-w-[90%] mx-auto">
             <select className="select select-bordered w-full block mx-auto mb-8" value={exerciseType} onChange={(e) => setExerciseType(e.target.value)}>
                 <option value="choose" disabled>Choose your matching worksheet options:</option>
-                <option value="terms">Create a matching exercise from terms provided by me.</option>
-                <option value="ai">Have AI create both terms and their meanings, based on a topic.</option>
+                <option value="terms">Create a matching worksheet from terms provided by me</option>
+                <option value="ai">Have AI create both terms and their meanings based on a topic</option>
             </select>
             {exerciseType === "terms" && (
                 <form className="w-full mx-auto flex flex-col mb-8" onSubmit={handleUserTerms}>
                     <label className="flex flex-col mb-8">
                         <span className="mb-2">Enter the terms you would like included:</span>
-                        <MatchingTargetWordsInput userTerms={userTerms} setUserTerms={setUserTerms} />
+                        <MatchingTargetWordsInput userTerms={userTerms} setUserTerms={setUserTerms} inputError={inputError} setInputError={setInputError} />
                     </label>
                     <button className="btn action-btn text-white">Generate Worksheet</button>
+                    <ErrorWarning />
                 </form>
             )}
             {exerciseType === "ai" && (
@@ -161,17 +179,17 @@ export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
                     </label>
                     <label className="flex flex-col mb-8">
                         <span className="mb-2">Enter number of terms:</span>
-                        {/* <input type="number" className="border p-2 mb-8" placeholder="e.g. 5 (max 10)" /> */}
                         <input 
                             type="number" 
                             placeholder="e.g. 5 (max. 10)" 
                             className="input input-bordered w-full" 
                             value={userTopicAndNumTerms.numTerms} 
-                            onChange={(e) => setUserTopicAndNumTerms({...userTopicAndNumTerms, numTerms: e.target.value})}
+                            onChange={(e) => handleNumTerms(e)}
                             required 
                         />
                     </label>
                     <button className="btn action-btn text-white">Generate Worksheet</button>
+                    <ErrorWarning />
                 </form>
             )}
         </div>

@@ -45,11 +45,8 @@ const FillInTheBlanksWorksheetPage = () => {
               <p className="text-center">Please complete the blanks below with an appropriate word.</p>
               </div>
               <EditContentButton contentEditable={contentEditable} setContentEditable={setContentEditable} />
-              <div className={`px-8 leading-8 h-[800px] overflow-y-hidden ${contentEditable && "bg-gray-100"}`} contentEditable={contentEditable} ref={contentEditableDiv}>
+              <div className={`px-8 leading-10 h-[800px] overflow-y-hidden ${contentEditable && "bg-gray-100"}`} contentEditable={contentEditable} ref={contentEditableDiv}>
                 {outputWithBlanks && outputWithBlanks}
-                {/* <div className="w-full flex flex-col mx-auto">
-
-                </div> */}
               </div>
           </div>
           </div>

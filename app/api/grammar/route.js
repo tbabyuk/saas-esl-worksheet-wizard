@@ -44,11 +44,13 @@ export async function POST(req) {
 
 
         const completion = await openai.chat.completions.create({
-            messages: [{"role": "user", "content": `Hey chat, I am an ESL English teacher and I need your help creating a grammar worksheet for my students. Please generate for me ${numSentences} sentences where each sentence has a mistake with its ${grammarTopic}. Then, please return the result inside a single array, where each sentence is a string. Thank you.`}],
+            messages: [{"role": "user", "content": `Hey chat, I am an ESL English teacher and I need your help creating a grammar worksheet for my students, where they need to correct wrong sentences. The grammar topic for these sentences is ${grammarTopic}. Please generate for me ${numSentences} sentences that my students could then try and fix. Then, please return the result inside a single array, where each sentence is a string. Thank you.`}],
             model: "gpt-3.5-turbo",
         });
 
         await decrementUserApiCount(userId);
+
+        console.log("Logging output from API:", completion.choices[0].message)
 
         return NextResponse.json({result: completion.choices[0].message}, {status: 200})
 

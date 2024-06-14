@@ -47,7 +47,7 @@ const GrammarCorrectionWorksheetPage = () => {
               <EditContentButton contentEditable={contentEditable} setContentEditable={setContentEditable} />
               <div className={`px-8 leading-8 h-[800px] overflow-y-hidden ${contentEditable && "bg-gray-100"}`} contentEditable={contentEditable} ref={contentEditableDiv}>
                 <div className="w-full flex flex-col mx-auto">
-                    <ol className="list-decimal space-y-8">
+                    <ol className="list-decimal space-y-10">
                       {outputArray && outputArray.map((sentence, index) => (
                         <li key={index}>&nbsp;{sentence}</li>
                       ))}
