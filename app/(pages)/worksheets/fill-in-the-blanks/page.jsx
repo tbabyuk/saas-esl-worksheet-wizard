@@ -14,8 +14,6 @@ const FillInTheBlanksWorksheetPage = () => {
   const [outputWithBlanks, setOutputWithBlanks] = useState("");
   const [contentEditable, setContentEditable] = useState(false);
 
-//   console.log("Logging questions array from MC page.jsx:", questionsArray)
-
 
   const handlePrint = useReactToPrint({
     documentTitle: "Print This Document",

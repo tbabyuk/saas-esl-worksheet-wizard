@@ -1,30 +1,21 @@
 "use client";
 
 import { useState } from "react";
-import { TargetWordsInput } from "../multiple-choice/components/TargetWordsInput";
-import { useUser } from "@clerk/nextjs";
 import { ErrorWarning } from "@/app/components/ErrorWarning";
 import { BlanksTargetWordsInput } from "./components/BlanksTargetWordsInput";
 
 
-
 export const FillInTheBlanksOptions = ({setOutputWithBlanks}) => {
 
-  const {user} = useUser();
   const [exerciseType, setExerciseType] = useState("choose");
-  const [userPayload, setUserPayload] = useState({
+  const [userBlanksPayload, setUserBlanksPayload] = useState({
     type: "choose",
     text: "",
     partOfSpeechAsBlanks: "choose",
-    userWordsAsBlanksArray: []
+    wordsAsBlanksArray: []
   });
   const [blanksMethodError, setBlanksMethodError] = useState("");
   const [blanksTermsError, setBlanksTermsError] = useState("");
-
-
-  console.log("Logging userPayload:", userPayload)
-
-
 
 
 
@@ -42,39 +33,32 @@ export const FillInTheBlanksOptions = ({setOutputWithBlanks}) => {
 
   const handleBlanksOptions = (e) => {
     setBlanksMethodError("");
-    setUserPayload((prev) => ({...prev, type: e.target.value}))
+    setUserBlanksPayload((prev) => ({...prev, type: e.target.value}))
   }
 
-  const handleSubmit = async (e) => {
+  const handleSubmitUserBlanks = async (e) => {
     e.preventDefault();
 
-    if(userPayload.type === "choose") {
+    if(userBlanksPayload.type === "choose") {
         setBlanksMethodError("please indicate how blanks should be created")
         return;
     }
 
-    if(userPayload.userWordsAsBlanksArray.length === 0) {
+    if(userBlanksPayload.wordsAsBlanksArray.length === 0) {
         setBlanksTermsError("you must enter at least one term before submitting")
         return;
     }
 
   
     try {
-
-        const userPayloadWithUserId = {
-            ...userPayload,
-            userId: user.id
-        }
-
         const res = await fetch("/api/fill-in-the-blanks", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(userPayloadWithUserId)
+            body: JSON.stringify(userBlanksPayload)
         });
 
-        
         const {result} = await res.json();
         
         console.log("logging result from client:", result)
@@ -96,14 +80,14 @@ export const FillInTheBlanksOptions = ({setOutputWithBlanks}) => {
                 <option value="text">Create a fill-in-the-blanks worksheet based on text provided by me</option>
             </select>
             {exerciseType === "text" && (
-                <form className="w-full mx-auto flex flex-col mb-8" onSubmit={handleSubmit}>
+                <form className="w-full mx-auto flex flex-col mb-8" onSubmit={handleSubmitUserBlanks}>
                     <label className="flex flex-col mb-8">
                         <span className="mb-2">Paste the text you would like to create a fill-in-the-blanks worksheet from:</span>
                         <textarea 
                             className="textarea textarea-bordered h-[200px]" 
                             placeholder="paste your text here" 
-                            value={userPayload.text} 
-                            onChange={(e) => setUserPayload({...userPayload, text: e.target.value})}
+                            value={userBlanksPayload.text} 
+                            onChange={(e) => setUserBlanksPayload((prev) => ({...prev, text: e.target.value}))}
                             required
                         />
                     </label>
@@ -111,12 +95,11 @@ export const FillInTheBlanksOptions = ({setOutputWithBlanks}) => {
                         <span className="mb-2">Choose how to create your blanks:</span>
                         <select 
                             className="select select-bordered w-full block mx-auto" 
-                            value={userPayload.type} 
+                            value={userBlanksPayload.type} 
                             onChange={(e) => handleBlanksOptions(e)}
                             required
                         >
                             <option value="choose" disabled>Choose:</option>
-                            {/* <option value="blanks-from-part-of-speech">Create blanks from a part of speech</option> */}
                             <option value="blanks-from-user-words">Create blanks from words chosen by me</option>
                         </select>
                         {blanksMethodError && (
@@ -135,11 +118,10 @@ export const FillInTheBlanksOptions = ({setOutputWithBlanks}) => {
                             </select>
                         </label>
                     )} */}
-                    {userPayload.type === "blanks-from-user-words" && (
+                    {userBlanksPayload.type === "blanks-from-user-words" && (
                         <label className="flex flex-col mb-8">
                             <span className="mb-2">Choose what words you would like displayed as blanks:</span>
-                            {/* <TargetWordsInput userPayload={userPayload} setUserPayload={setUserPayload} /> */}
-                            <BlanksTargetWordsInput userPayload={userPayload} setUserPayload={setUserPayload} blanksTermsError={blanksTermsError} setBlanksTermsError={setBlanksTermsError} />
+                            <BlanksTargetWordsInput userBlanksPayload={userBlanksPayload} setUserBlanksPayload={setUserBlanksPayload} blanksTermsError={blanksTermsError} setBlanksTermsError={setBlanksTermsError} />
                         </label>
                     )}
                     <button className="btn action-btn text-white">Generate Worksheet</button>

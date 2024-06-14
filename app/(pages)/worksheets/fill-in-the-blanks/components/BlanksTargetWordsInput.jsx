@@ -6,20 +6,18 @@ import { useState } from "react";
 import { RxCross2 } from "react-icons/rx";
 
 
-export const BlanksTargetWordsInput = ({userPayload, setUserPayload, blanksTermsError, setBlanksTermsError}) => {
+export const BlanksTargetWordsInput = ({userBlanksPayload, setUserBlanksPayload, blanksTermsError, setBlanksTermsError}) => {
 
     const [currentValue, setCurrentValue] = useState("");
-    const {userWordsAsBlanksArray} = userPayload;
-
-    console.log("logging userWordsAsBlanksArray from TargetWordsInput:", userWordsAsBlanksArray)
+    const {wordsAsBlanksArray} = userBlanksPayload;
 
 
     const handleAddWord = (e) => {
         if(e.key === "Enter") {
             e.preventDefault();
-            setUserPayload(prev => ({
+            setUserBlanksPayload(prev => ({
                 ...prev,
-                userWordsAsBlanksArray: [...prev.userWordsAsBlanksArray, currentValue]
+                wordsAsBlanksArray: [...prev.wordsAsBlanksArray, currentValue]
             }))
             setCurrentValue("");
         }
@@ -28,9 +26,9 @@ export const BlanksTargetWordsInput = ({userPayload, setUserPayload, blanksTerms
 
     const handleDeleteWord = (e) => {
         const targetWord = e.target.closest("span").innerText;
-        setUserPayload(prev => ({
+        setUserBlanksPayload(prev => ({
             ...prev,
-            userWordsAsBlanksArray: prev.userWordsAsBlanksArray.filter((word) => word !== targetWord)
+            wordsAsBlanksArray: prev.wordsAsBlanksArray.filter((word) => word !== targetWord)
         }))
     }
 
@@ -43,8 +41,8 @@ export const BlanksTargetWordsInput = ({userPayload, setUserPayload, blanksTerms
                 <p className="text-sm text-red-500 px-2">{blanksTermsError}</p>
             )}
             <div className="mt-4 flex flex-wrap gap-2">
-                {userWordsAsBlanksArray &&
-                    userWordsAsBlanksArray.map((word) => (
+                {wordsAsBlanksArray &&
+                    wordsAsBlanksArray.map((word) => (
                         <span key={word} className="bg-gray-300 py-1 px-2 rounded-md flex justify-center items-center gap-x-2">
                         {word}
                         <RxCross2 className="cursor-pointer" onClick={handleDeleteWord} />
