@@ -49,31 +49,18 @@ const MatchingWorksheetPage = () => {
               </div>
               <button className="px-3 py-2 rounded-md text-gray-400 font-semibold no-animation absolute -left-[90px] top-[30%] bg-gray-300 -rotate-90" onClick={() => setContentEditable(!contentEditable)}>{contentEditable ? "SAVE CONTENT" : "EDIT CONTENT"}</button>
               <EditContentButton contentEditable={contentEditable} setContentEditable={setContentEditable} />
-
               <div className={`grid grid-cols-3 gap-x-3 py-5 h-[800px] overflow-y-hidden ${contentEditable && "bg-gray-100"}`} contentEditable={contentEditable} ref={contentEditableDiv}>
                 <div className="col-span-1 w-full flex flex-col gap-y-5 mx-auto">
-                  <div type="text" className="matching-term">{objectKeys && objectKeys[0]}</div>
-                  <div type="text" className="matching-term">{objectKeys && objectKeys[1]}</div>
-                  <div type="text" className="matching-term">{objectKeys && objectKeys[2]}</div>
-                  <div type="text" className="matching-term">{objectKeys && objectKeys[3]}</div>
-                  <div type="text" className="matching-term">{objectKeys && objectKeys[4]}</div>
-                  <div type="text" className="matching-term">{objectKeys && objectKeys[5]}</div>
-                  <div type="text" className="matching-term">{objectKeys && objectKeys[6]}</div>
-                  <div type="text" className="matching-term">{objectKeys && objectKeys[7]}</div>
-                  <div type="text" className="matching-term">{objectKeys && objectKeys[8]}</div>
-                  <div type="text" className="matching-term">{objectKeys && objectKeys[9]}</div>
+                  {objectKeys && objectKeys.map((term, index) => (
+                      <div key={index} type="text" className="matching-term">{term}</div>
+                    )) 
+                  }
                 </div>
                 <div className="col-span-2 w-full flex flex-col gap-y-5 mx-auto">
-                  <div type="text" className="matching-meaning">{objectValues && objectValues[0]}</div>
-                  <div type="text" className="matching-meaning">{objectValues && objectValues[1]}</div>
-                  <div type="text" className="matching-meaning">{objectValues && objectValues[2]}</div>
-                  <div type="text" className="matching-meaning">{objectValues && objectValues[3]}</div>
-                  <div type="text" className="matching-meaning">{objectValues && objectValues[4]}</div>
-                  <div type="text" className="matching-meaning">{objectValues && objectValues[5]}</div>
-                  <div type="text" className="matching-meaning">{objectValues && objectValues[6]}</div>
-                  <div type="text" className="matching-meaning">{objectValues && objectValues[7]}</div>
-                  <div type="text" className="matching-meaning">{objectValues && objectValues[8]}</div>
-                  <div type="text" className="matching-meaning">{objectValues && objectValues[9]}</div>
+                  {objectValues && objectValues.map((meaning, index) => (
+                      <div key={index} type="text" className="matching-meaning">{meaning}</div>
+                    )) 
+                  }
                 </div>
               </div>
           </div>

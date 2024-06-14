@@ -6,8 +6,6 @@ import { User } from "@/models/models";
 import { auth } from '@clerk/nextjs/server';
 
 
-
-
 const openai = new OpenAI();
 
 
@@ -38,11 +36,11 @@ export async function POST(req) {
             return NextResponse.json({message: "out of credits"}, {status: 403})
         }
         
-        if (action === "action1") {
-            const {userTermsArray} = requestObject;
+        if (action === "terms") {
+            const {termsArray} = requestObject;
 
             const completion = await openai.chat.completions.create({
-                messages: [{"role": "user", "content": `Hey chat, I am an ESL English teacher and I need your help creating a matching exercise for my students. Please generate for me the definitions for these terms: ${userTermsArray}. Please keep the definitions to under 23 words. Then, please return both the terms and their corresponding definitions as a JSON object, where the terms are the keys and the definitions are the values. It's very important that you return only these keys and values in the JSON object and nothing else.`}],
+                messages: [{"role": "user", "content": `Hey chat, I am an ESL English teacher and I need your help creating a matching exercise for my students. Please generate for me the definitions for these terms: ${termsArray}. Please keep the definitions to under 23 words. Then, please return both the terms and their corresponding definitions as a JSON object, where the terms are the keys and the definitions are the values. It's very important that you return only these keys and values in the JSON object and nothing else.`}],
                 model: "gpt-3.5-turbo",
             });
 
@@ -51,9 +49,8 @@ export async function POST(req) {
             return NextResponse.json({result: completion.choices[0].message}, {status: 200})
         }
 
-        if (action === "action2") {
+        if (action === "topic") {
             const {topic, numTerms} = requestObject;
-            console.log("logging topic and numTerms from action 2 in API:", topic, numTerms)
 
             const completion = await openai.chat.completions.create({
                 messages: [{"role": "user", "content": `Hey chat, I am an ESL English teacher and I need your help creating a matching exercise for my students. Please generate for me ${numTerms} different terms and definitions on the topic of ${topic}. Please do not number the terms and keep each definition to under 24 words. Then, please return both the terms and their corresponding definitions as a JSON object, where the terms are the keys and the definitions are the values. It's very important that you return only these keys and values in the JSON object and nothing else.`}],

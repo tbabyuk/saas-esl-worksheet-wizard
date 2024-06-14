@@ -1,8 +1,6 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { useUser } from "@clerk/nextjs";
-import { useRouter } from "next/navigation";
 import { FreeTrialFinishedModal } from "@/app/components/FreeTrialFinishedModal";
 import { OutOfCreditsModal } from "@/app/components/OutOfCreditsModal";
 import { MatchingTargetWordsInput } from "./components/MatchingTargetWordsInput";
@@ -10,27 +8,22 @@ import { ErrorWarning } from "@/app/components/ErrorWarning";
 
 export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
 
-  const {user} = useUser();
   const freeTrialFinishedModalRef = useRef();
   const outOfCreditsModalRef = useRef();
 
-  console.log("logging current user:", user)
-
+  // component state variables 
   const [exerciseType, setExerciseType] = useState("choose");
-  const [userTerms, setUserTerms] = useState({
-    action: "action1",
-    userTermsArray: []
+  const [userTermsPayload, setUserTermsPayload] = useState({
+    action: "terms",
+    termsArray: []
   });
-  const [userTopicAndNumTerms, setUserTopicAndNumTerms] = useState({
-    action: "action2",
+  const [userTopicPayload, setUserTopicPayload] = useState({
+    action: "topic",
     topic: "",
     numTerms: ""
   });
   const [inputError, setInputError] = useState("");
 
-
-  console.log("logging userTermsList:", userTerms)
-  console.log("logging userTopicAndNumTerms:", userTopicAndNumTerms)
 
 
   function shuffleArray(array) {
@@ -68,17 +61,17 @@ export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
   const handleNumTerms = (e) => {
     const userInput = e.target.value;
     if(userInput > 10) {
-        setUserTopicAndNumTerms((prev) => ({...prev, numTerms: 10}))
+        setUserTopicPayload((prev) => ({...prev, numTerms: 10}))
     } else {
-        setUserTopicAndNumTerms((prev) => ({...prev, numTerms: e.target.value}))
+        setUserTopicPayload((prev) => ({...prev, numTerms: e.target.value}))
     }
   }
 
 
-  const handleUserTerms = async (e) => {
+  const handleSubmitUserTerms = async (e) => {
     e.preventDefault();
 
-    if(userTerms.userTermsArray.length === 0) {
+    if(userTermsPayload.termsArray.length === 0) {
         setInputError("you must enter at least one term before submitting")
         return;
     }
@@ -89,7 +82,7 @@ export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(userTerms)
+            body: JSON.stringify(userTermsPayload)
         })
 
         if(!res.ok) {
@@ -97,10 +90,12 @@ export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
             if(message === "free trial expired") {
                 console.log("Free trial has expired")
                 freeTrialFinishedModalRef.current.showModal();
+                return;
             }
             if(message === "out of credits") {
                 console.log("The user is out of credits!")
                 outOfCreditsModalRef.current.showModal();
+                return;
             }
         }
         
@@ -113,7 +108,7 @@ export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
   }
 
 
-  const handleUserTopicAndNumTerms = async (e) => {
+  const handleSubmitUserTopic = async (e) => {
     e.preventDefault();
 
     try {
@@ -122,7 +117,7 @@ export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(userTopicAndNumTerms)
+            body: JSON.stringify(userTopicPayload)
         })
 
         if(!res.ok) {
@@ -130,10 +125,12 @@ export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
             if(message === "free trial expired") {
                 console.log("Free trial has expired")
                 freeTrialFinishedModalRef.current.showModal();
+                return;
             }
             if(message === "out of credits") {
                 console.log("The user is out of credits!")
                 outOfCreditsModalRef.current.showModal();
+                return;
             }
         }
 
@@ -151,29 +148,29 @@ export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
         <div className="w-[450px] max-w-[90%] mx-auto">
             <select className="select select-bordered w-full block mx-auto mb-8" value={exerciseType} onChange={(e) => setExerciseType(e.target.value)}>
                 <option value="choose" disabled>Choose your matching worksheet options:</option>
-                <option value="terms">Create a matching worksheet from terms provided by me</option>
-                <option value="ai">Have AI create both terms and their meanings based on a topic</option>
+                <option value="user-terms">Create a matching worksheet from terms provided by me</option>
+                <option value="user-topic">Have AI create both terms and their meanings based on a topic</option>
             </select>
-            {exerciseType === "terms" && (
-                <form className="w-full mx-auto flex flex-col mb-8" onSubmit={handleUserTerms}>
+            {exerciseType === "user-terms" && (
+                <form className="w-full mx-auto flex flex-col mb-8" onSubmit={handleSubmitUserTerms}>
                     <label className="flex flex-col mb-8">
                         <span className="mb-2">Enter the terms you would like included:</span>
-                        <MatchingTargetWordsInput userTerms={userTerms} setUserTerms={setUserTerms} inputError={inputError} setInputError={setInputError} />
+                        <MatchingTargetWordsInput userTermsPayload={userTermsPayload} setUserTermsPayload={setUserTermsPayload} inputError={inputError} setInputError={setInputError} />
                     </label>
                     <button className="btn action-btn text-white">Generate Worksheet</button>
                     <ErrorWarning />
                 </form>
             )}
-            {exerciseType === "ai" && (
-                <form className="w-full mx-auto flex flex-col mb-8" onSubmit={handleUserTopicAndNumTerms}>
+            {exerciseType === "user-topic" && (
+                <form className="w-full mx-auto flex flex-col mb-8" onSubmit={handleSubmitUserTopic}>
                     <label className="flex flex-col mb-8">
                         <span className="mb-2">Enter your topic:</span>
                         <input 
                             type="text" 
                             placeholder="e.g. technology" 
                             className="input input-bordered w-full" 
-                            value={userTopicAndNumTerms.topic} 
-                            onChange={(e) => setUserTopicAndNumTerms({...userTopicAndNumTerms, topic: e.target.value})}
+                            value={userTopicPayload.topic} 
+                            onChange={(e) => setUserTopicPayload((prev) => ({...prev, topic: e.target.value}))}
                             required 
                         />
                     </label>
@@ -183,7 +180,7 @@ export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
                             type="number" 
                             placeholder="e.g. 5 (max. 10)" 
                             className="input input-bordered w-full" 
-                            value={userTopicAndNumTerms.numTerms} 
+                            value={userTopicPayload.numTerms} 
                             onChange={(e) => handleNumTerms(e)}
                             required 
                         />
