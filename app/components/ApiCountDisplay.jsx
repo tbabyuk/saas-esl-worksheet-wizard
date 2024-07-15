@@ -1,35 +1,41 @@
 "use client"
 
-import { connectToESLWorksheetWizardDB } from "@/db/database";
-import { User } from "@/models/models";
-import { auth } from '@clerk/nextjs/server';
+
+import { useAuth } from "@clerk/nextjs";
 import { useState, useEffect } from "react";
 
 
 
-export const ApiCountDisplay = async () => {
+export const ApiCountDisplay = () => {
+
 
     const [apiCount, setApiCount] = useState("")
     
-    const {userId} = auth();
 
-    console.log("Logging userId from ApiCountDisplay:", userId)
+    const fetchUserApiCount = async () => {
 
+    try {
+        const response = await fetch("/api/api-count", {
+            method: 'POST',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({greeting: "Greetings!"})
+        });
 
-    const fetchAPICount = async () => {
-        try {
-            await connectToESLWorksheetWizardDB();
-            const user = await User.findOne({ userClerkId: userId });
-            console.log("logging user from ApiCountDisplay:", user)
-            setApiCount(user.userApiCount);
-            } catch (error) {
-                console.log("An error occured:", error)
-            }    
+        if(!response.ok) {
+            throw new Error("some went wrong while fetching API count")
         }
+
+        const {currentUserApiCount} = await response.json();
+        setApiCount(currentUserApiCount)
+
+        } catch(error) {
+            console.log("An error occurred", error.message)
+        }
+    }
 
 
     useEffect(() => {
-        fetchAPICount()
+        fetchUserApiCount();
     }, [])
 
 

@@ -48,9 +48,9 @@ const DashboardPage = () => {
     <div className="py-16">
       <div className="mb-16">
         <h2 className="text-2xl md:text-3xl mb-5 font-bold text-center text-gray-600">Create Amazing ESL Worksheets in Seconds with the help of AI!</h2>
-        <Suspense fallback={<Loading />}>
+        {/* <Suspense fallback={<Loading />}> */}
           <ApiCountDisplay />
-        </Suspense>
+        {/* </Suspense> */}
       </div>
       <div className="px-4 md:px-20 lg:px-32 space-y-6">
         {tools.map((tool, index) => (
