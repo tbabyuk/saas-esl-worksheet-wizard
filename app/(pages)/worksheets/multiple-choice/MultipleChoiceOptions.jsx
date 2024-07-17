@@ -21,8 +21,8 @@ export const MultipleChoiceOptions = ({setQuestionsArray}) => {
     console.log("logging string from parseString:", string, typeof string)
 
     // captures only the string content inside [ ] brackets
-    const objectRegex = /\[[^\[\]]*?(?:\[[^\[\]]*?\][^\[\]]*?)*\]/
-;
+    const objectRegex = /\[[^\[\]]*?(?:\[[^\[\]]*?\][^\[\]]*?)*\]/;
+    
     const stringArray = string.match(objectRegex)[0];
 
     console.log("logging stringArray after regex", stringArray, typeof stringArray)

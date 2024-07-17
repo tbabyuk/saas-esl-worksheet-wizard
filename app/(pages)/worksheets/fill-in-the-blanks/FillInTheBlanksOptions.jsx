@@ -24,18 +24,6 @@ export const FillInTheBlanksOptions = ({setOutputWithBlanks}) => {
 
 
 
-//   const parseString = (string) => {
-
-//     console.log("from parseString, logging string", string, typeof string);
-
-//     const parsedArray = JSON.parse(string);
-
-//     setQuestionsArray(parsedArray);
-
-//     console.log("Logging parsedString from MCOptions:", parsedArray, typeof parsedArray);
-
-//   }
-
   const handleBlanksOptions = (e) => {
     setBlanksMethodError("");
     setUserBlanksPayload((prev) => ({...prev, type: e.target.value}))
@@ -55,6 +43,7 @@ export const FillInTheBlanksOptions = ({setOutputWithBlanks}) => {
     }
 
     try {
+        setOutputWithBlanks("")
         const res = await fetch("/api/fill-in-the-blanks", {
             method: "POST",
             headers: {

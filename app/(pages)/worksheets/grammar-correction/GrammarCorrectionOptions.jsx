@@ -33,10 +33,21 @@ export const GrammarCorrectionOptions = ({setOutputArray}) => {
 
 
   const parseString = (string) => {
-    console.log("logging string to parse from parseString func:", string)
-    const parsedArray = JSON.parse(string);
+
+    // console.log("logging string from parseString func:", string, typeof string)
+
+    // captures only the string content inside [ ] brackets
+    const arrayRegex = /\[[^\[\]]*?(?:\[[^\[\]]*?\][^\[\]]*?)*\]/;
+
+    const stringArray = string.match(arrayRegex)[0];
+
+    console.log("logging stringArray after regex", stringArray, typeof stringArray)
+
+    const parsedArray = JSON.parse(stringArray);
+
     setOutputArray(parsedArray);
   }
+
 
   const handleNumSentencesInput = (e) => {
     const userInput = e.target.value;
@@ -67,6 +78,7 @@ export const GrammarCorrectionOptions = ({setOutputArray}) => {
     console.log("Handle Fired")
 
     try {
+        setOutputArray([])
         const res = await fetch("/api/grammar", {
             method: "POST",
             headers: {
@@ -104,7 +116,7 @@ export const GrammarCorrectionOptions = ({setOutputArray}) => {
         <div className="w-[450px] max-w-[90%] mx-auto">
             <select className="select select-bordered w-full block mx-auto mb-8" value={exerciseType} onChange={(e) => setExerciseType(e.target.value)}>
                 <option value="choose" disabled>Choose your grammar worksheet options:</option>
-                <option value="grammar-topic">Generate sentences with mistakes based on a grammar topic.</option>
+                <option value="grammar-topic">Generate sentences with mistakes based on a grammar topic</option>
                 {/* <option value="grandom">Generate text with random grammar mistakes.</option> */}
             </select>
             {/* {exerciseType === "random" && (
@@ -139,7 +151,7 @@ export const GrammarCorrectionOptions = ({setOutputArray}) => {
                         )}
                     </label>
                     <label className="flex flex-col mb-8">
-                        <span className="mb-2">Enter number of sentences to generate:</span>
+                        <span className="mb-2">Enter number of sentences to generate (max 10 per page):</span>
                         <input 
                             type="number"
                             placeholder="e.g. 5 (max. 10)" 

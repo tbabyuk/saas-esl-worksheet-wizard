@@ -42,12 +42,16 @@ export async function POST(req) {
 
         const {wordsAsBlanksArray, text} = requestObject;
 
+        console.log("logging wordsAsBlanksArray and text", wordsAsBlanksArray, text)
+
         const completion = await openai.chat.completions.create({
-        messages: [{"role": "user", "content": `Hey chat, I need your help creating a fill-in-the-blanks activity for my students. In this text: ${text}, please replace the words inside this array: ${wordsAsBlanksArray} with a long underscore line, like this "________________" (maximum 16 characters long). It's important that you only replace these words, and no other words. If any of these words are preceded by an article like "a" or "the", do not replace the article, only the word. The case of these words does not matter. Finally, please return the resulting text to me as a string. Thank you.`}],
+        messages: [{"role": "user", "content": `Hey chat, I am an ESL English teacher and I need your help creating a fill-in-the-blanks activity for my students. In this text: ${text}, please replace the words inside this array: ${wordsAsBlanksArray} with an underscore line, like this "________________", which should be 18 characters long. It's important that you only replace these words, and no other words. If any of these words are preceded by an article like "a" or "the", do not replace the article, only the word. The case of these words does not matter. Also, if the array contains a word that's not inside the text, just return the original text without any changes. Finally, please return the resulting result to me as a string. Thank you.`}],
         model: "gpt-3.5-turbo",
         });
 
         await decrementUserApiCount(userId);
+
+        console.log("Logging APi response from fill in the blanks API:=====================", completion.choices[0].message)
 
         return NextResponse.json({result: completion.choices[0].message}, {status: 200})
     } 
