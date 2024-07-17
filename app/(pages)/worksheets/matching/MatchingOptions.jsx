@@ -127,6 +127,7 @@ export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
         });
 
         if(!res.ok) {
+            console.log("the !res.ok block fired")
             const {message} = await res.json();
             if(message === "free trial expired") {
                 console.log("Free trial has expired")
@@ -138,10 +139,12 @@ export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
                 outOfCreditsModalRef.current.showModal();
                 return;
             }
+        } else {
+            console.log("the else block fired")
+            const {result} = await res.json();
+            parseString(result.content);
         }
 
-        const {result} = await res.json();
-        parseString(result.content);
 
     } catch(error) {
         console.log("An error occured:", error)
