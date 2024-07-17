@@ -67,7 +67,7 @@ export const Sidebar = () => {
                   <Image
                     fill
                     alt="logo"
-                    src="/images/logo.png"
+                    src="/images/hat.png"
                     className="w-2"
                   />
                 </div>

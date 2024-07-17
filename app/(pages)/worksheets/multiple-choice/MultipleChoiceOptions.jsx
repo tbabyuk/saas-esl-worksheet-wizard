@@ -18,14 +18,17 @@ export const MultipleChoiceOptions = ({setQuestionsArray}) => {
 
 
   const parseString = (string) => {
+    console.log("logging string from parseString:", string, typeof string)
 
-    console.log("from parseString, logging string", string, typeof string);
+    // captures only the string content inside [ ] brackets
+    const objectRegex = /\[[^\[\]]*?(?:\[[^\[\]]*?\][^\[\]]*?)*\]/
+;
+    const stringArray = string.match(objectRegex)[0];
 
-    const parsedArray = JSON.parse(string);
-    console.log("Logging parsedString from MCOptions:", parsedArray, typeof parsedArray);
+    console.log("logging stringArray after regex", stringArray, typeof stringArray)
 
+    const parsedArray = JSON.parse(stringArray);
     setQuestionsArray(parsedArray);
-
   }
 
 
@@ -35,6 +38,7 @@ export const MultipleChoiceOptions = ({setQuestionsArray}) => {
     console.log("from client handleSubmitText: fired", userTextPayload)
 
     try {
+        setQuestionsArray([])
         const res = await fetch("/api/multiple-choice", {
             method: "POST",
             headers: {
@@ -57,10 +61,9 @@ export const MultipleChoiceOptions = ({setQuestionsArray}) => {
             }
         }
 
-        
         const {result} = await res.json();
         
-        console.log("logging result from client:", result)
+        console.log("logging result.content from MC client:", result.content)
 
         parseString(result.content);
 

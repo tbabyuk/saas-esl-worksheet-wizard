@@ -43,16 +43,16 @@ export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
 
     const stringObject = string.match(objectRegex)[0];
 
-    const parsedString = JSON.parse(stringObject);
+    const parsedObject = JSON.parse(stringObject);
 
-    console.log("logging parsed String from MatchingOptions:", parsedString)
+    console.log("logging parsed String from MatchingOptions:", parsedObject)
     
-    const keys = Object.keys(parsedString);
+    const keys = Object.keys(parsedObject);
 
-    setObjectKeys(Object.keys(parsedString));
+    setObjectKeys(Object.keys(parsedObject));
     console.log("Logging keys from result:", keys)
 
-    const values = Object.values(parsedString);
+    const values = Object.values(parsedObject);
     setObjectValues(shuffleArray(values))
     console.log("Logging values from result:", values)
   }
@@ -77,6 +77,8 @@ export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
     }
 
     try {
+        setObjectKeys([])
+        setObjectValues([])
         const res = await fetch("/api/matching", {
             method: "POST",
             headers: {
@@ -100,6 +102,8 @@ export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
         }
         
         const {result} = await res.json();
+        console.log("Logging result.content from matching client: -------------", result.content)
+
         parseString(result.content);
 
         } catch(error) {
@@ -112,6 +116,8 @@ export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
     e.preventDefault();
 
     try {
+        setObjectKeys([])
+        setObjectValues([])
         const res = await fetch("/api/matching", {
             method: "POST",
             headers: {
@@ -175,10 +181,10 @@ export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
                         />
                     </label>
                     <label className="flex flex-col mb-8">
-                        <span className="mb-2">Enter number of terms:</span>
+                        <span className="mb-2">Enter number of terms (max 10 per page):</span>
                         <input 
                             type="number" 
-                            placeholder="e.g. 5 (max. 10)" 
+                            placeholder="e.g. 6" 
                             className="input input-bordered w-full" 
                             value={userTopicPayload.numTerms} 
                             onChange={(e) => handleNumTerms(e)}
