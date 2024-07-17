@@ -99,13 +99,12 @@ export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
                 outOfCreditsModalRef.current.showModal();
                 return;
             }
+        } else {
+            const {result} = await res.json();
+            console.log("Logging result.content from matching client: -------------", result.content)
+            parseString(result.content);
         }
         
-        const {result} = await res.json();
-        console.log("Logging result.content from matching client: -------------", result.content)
-
-        parseString(result.content);
-
         } catch(error) {
             console.log("An error occured:", error)
         }
@@ -144,7 +143,6 @@ export const MatchingOptions = ({setObjectKeys, setObjectValues}) => {
             const {result} = await res.json();
             parseString(result.content);
         }
-
 
     } catch(error) {
         console.log("An error occured:", error)
