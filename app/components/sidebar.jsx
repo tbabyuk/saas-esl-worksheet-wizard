@@ -2,7 +2,6 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import { IoSettingsOutline } from "react-icons/io5";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { TiArrowShuffle } from "react-icons/ti";
 import { FaListUl } from "react-icons/fa";
@@ -89,9 +88,8 @@ export const Sidebar = () => {
             </div>
             <Link
                   href="/buy-credits"
-                  className={`text-sm mt-28 group flex p-3 w-full justify-start cursor-pointer hover:text-white hover:bg-white/10 rounded-lg transition ${path === "/buy-credits" && "bg-white/10"} gradient-btn`}
-                  onClick={() => setCreditsModalIsOpen(!creditsModalIsOpen)}
-                >
+                  className="mt-28 gradient-btn w-full"
+            >
                   <div className="flex justify-center items-center flex-1">
                     <span>
                         <RiShoppingBag4Fill className="h-5 w-5 mr-2" />

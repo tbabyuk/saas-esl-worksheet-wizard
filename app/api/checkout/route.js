@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-// import { getAuth } from '@clerk/nextjs/server';
 import Stripe from "stripe";
 import { auth } from '@clerk/nextjs/server';
 
@@ -56,15 +55,10 @@ export async function POST(request) {
                 },
             },
             mode: "payment",
-            success_url: "https://www.dacapomusic.ca/checkout/success",
-            cancel_url: "https://www.dacapomusic.ca/checkout/cancel"
-
+            success_url: "https://www.eslworksheetwizard.com/dashboard",
+            cancel_url: "https://www.eslworksheetwizard.com/checkout-cancelled"
             }
         )
-
-        // if(session) {
-        //     console.log("logging session:", session)
-        // }
 
         return NextResponse.json({url: session.url})
 
