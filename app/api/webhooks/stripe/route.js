@@ -38,7 +38,7 @@ export async function POST(req) {
                 await connectToESLWorksheetWizardDB()
     
                 // add new user to database
-                await User.updateOne({ userClerkId }, {userApiCount: numCreditsPurchased})
+                await User.updateOne({ userClerkId }, {userApiCount: userApiCount + numCreditsPurchased})
             
                 // return new Response(JSON.stringify(result), {status: 200})
                 console.log("credits update successful!")
